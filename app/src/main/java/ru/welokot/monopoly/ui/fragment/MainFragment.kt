@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.ui.main
+package ru.welokot.monopoly.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

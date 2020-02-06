@@ -10,7 +10,8 @@ import ru.welokot.monopoly.BaseApplication
 
 @Component(
     modules = [
-        AndroidSupportInjectionModule::class
+        AndroidSupportInjectionModule::class,
+        ActivityBuildersModule::class
     ]
 )
 interface AppComponent: AndroidInjector<BaseApplication> {

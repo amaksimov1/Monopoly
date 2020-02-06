@@ -1,17 +1,20 @@
-package ru.welokot.monopoly.ui.main
+package ru.welokot.monopoly.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dagger.android.support.DaggerAppCompatActivity
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.ui.fragment.MainFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container,
+                    MainFragment.newInstance()
+                )
                 .commitNow()
         }
     }
