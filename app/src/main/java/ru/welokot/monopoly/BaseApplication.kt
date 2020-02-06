@@ -1,12 +1,14 @@
 package ru.welokot.monopoly
 
-import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import ru.welokot.monopoly.di.DaggerAppComponent
 
-class BaseApplication: DaggerApplication {
+class BaseApplication: DaggerApplication() {
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return DaggerAppComponent
+            .builder()
+            .application(this)
+            .build()
     }
 }
