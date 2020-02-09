@@ -7,7 +7,9 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import ru.welokot.monopoly.BaseApplication
+import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,

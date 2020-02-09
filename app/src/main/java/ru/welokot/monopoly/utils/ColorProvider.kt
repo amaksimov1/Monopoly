@@ -2,9 +2,9 @@ package ru.welokot.monopoly.utils
 
 object ColorProvider {
 
-    private val unusedColors = Color.values().toMutableSet()
+    private val unusedColors = Palette.values().toMutableSet()
 
-    fun getNextUnusedPalette(): Color {
+    fun getNextUnusedPalette(): Palette {
         if (unusedColors.isNotEmpty()) {
             val color = unusedColors.random()
             unusedColors.remove(color)
@@ -13,16 +13,16 @@ object ColorProvider {
         return getRandomPalette()
     }
 
-    private fun getRandomPalette(): Color {
-        return Color.values().random()
+    private fun getRandomPalette(): Palette {
+        return Palette.values().random()
     }
 
-    fun setNewUnusedPalette(color: Color) {
+    fun setNewUnusedPalette(color: Palette) {
         unusedColors.add(color)
     }
 }
 
-enum class Color (val bgHex: String, val textHex: String) {
+enum class Palette (val bgHex: String, val textHex: String) {
     RED("F44336", "FFFFFF"),
     PINK("E91E63", "FFFFFF"),
     PURPLE("9C27B0", "FFFFFF"),
