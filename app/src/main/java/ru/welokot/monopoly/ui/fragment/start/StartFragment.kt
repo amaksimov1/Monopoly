@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.ui.fragment
+package ru.welokot.monopoly.ui.fragment.start
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import ru.welokot.monopoly.R
 
-class MainFragment : Fragment() {
+class StartFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = StartFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: StartViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.models
+package ru.welokot.monopoly.db.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
