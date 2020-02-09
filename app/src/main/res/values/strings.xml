@@ -2,4 +2,6 @@
     <string name="app_name">Monopoly</string>
     <string name="button_new_game">Новая игра</string>
     <string name="button_load_game">Загрузить игру</string>
+    <string name="btn_start_new_game">Новая игра</string>
+    <string name="btn_load_game">Загрузить игру</string>
 </resources>
