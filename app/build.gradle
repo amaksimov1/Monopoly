@@ -65,6 +65,5 @@ dependencies {
     // -- Lifecycle Components (ViewModel, LiveData and ReactiveStreams)
     implementation "androidx.lifecycle:lifecycle-runtime:2.2.0"
     kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
-
-
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }

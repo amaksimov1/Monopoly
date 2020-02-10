@@ -3,7 +3,7 @@ package ru.welokot.monopoly.di
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
-import ru.welokot.monopoly.viewmodels.ViewModelProviderFactory
+import ru.welokot.monopoly.di.viewmodels.ViewModelProviderFactory
 
 @Module
 abstract class ViewModelFactoryModule {

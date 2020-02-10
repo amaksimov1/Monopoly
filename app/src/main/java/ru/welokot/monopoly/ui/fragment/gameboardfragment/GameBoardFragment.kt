@@ -1,32 +1,29 @@
-package ru.welokot.monopoly.ui.fragment.start
+package ru.welokot.monopoly.ui.fragment.gameboardfragment
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import ru.welokot.monopoly.R
 
-class StartFragment : DaggerFragment() {
-
-    val APP_PREFERENCES_LASTGAME = "lastGameExists"
+class GameBoardFragment: DaggerFragment() {
 
     companion object {
-        fun newInstance() = StartFragment()
+        fun newInstance() = GameBoardFragment()
     }
 
-    private lateinit var viewModel: StartViewModel
+    private lateinit var viewModel: GameBoardViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.start_fragment, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.prepare_to_game_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
     }
 }

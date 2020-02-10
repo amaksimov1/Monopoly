@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.ui.Router.showStartFragment
-import ru.welokot.monopoly.ui.fragment.start.StartFragment
+import ru.welokot.monopoly.ui.Router.showPrepareToGameFragment
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -23,7 +22,7 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProvider(this, providerFactory).get(MainActivityViewModel::class.java)
 
         if (savedInstanceState == null) {
-            showStartFragment(supportFragmentManager)
+            showPrepareToGameFragment(supportFragmentManager)
         }
     }
 }

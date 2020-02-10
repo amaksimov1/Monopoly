@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.viewmodels
+package ru.welokot.monopoly.di.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
