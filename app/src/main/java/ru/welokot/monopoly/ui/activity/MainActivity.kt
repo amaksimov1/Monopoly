@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.ui.Router.showStartFragment
 import ru.welokot.monopoly.ui.fragment.start.StartFragment
 import javax.inject.Inject
 
@@ -22,11 +23,7 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModel = ViewModelProvider(this, providerFactory).get(MainActivityViewModel::class.java)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container,
-                    StartFragment.newInstance()
-                )
-                .commitNow()
+            showStartFragment(supportFragmentManager)
         }
     }
 }

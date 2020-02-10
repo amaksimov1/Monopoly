@@ -6,9 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.android.support.DaggerFragment
 import ru.welokot.monopoly.R
 
-class StartFragment : Fragment() {
+class StartFragment : DaggerFragment() {
 
     val APP_PREFERENCES_LASTGAME = "lastGameExists"
 
