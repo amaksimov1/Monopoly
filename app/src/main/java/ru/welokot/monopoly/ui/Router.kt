@@ -10,7 +10,7 @@ object Router {
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.container,
-                PrepareToGameFragment.newInstance()
+                PrepareToGameFragment()
             )
             .commitNow()
     }
@@ -19,7 +19,7 @@ object Router {
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.container,
-                PrepareToGameFragment.newInstance()
+                PrepareToGameFragment()
             )
             .commitNow()
     }
