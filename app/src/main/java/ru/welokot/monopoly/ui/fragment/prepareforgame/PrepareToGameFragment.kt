@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.getSystemService
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.welokot.monopoly.R
 
 
@@ -64,11 +65,7 @@ class PrepareToGameFragment : DaggerFragment() {
 
         btnStartGame.setOnClickListener {
             tvHint.visibility = View.GONE
-            val dialog = Dialog(context!!)
-            dialog.setContentView(R.layout.dialog_add_player)
-            dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-            dialog.show()
-
+            showDialogAddNewPlayer()
         }
     }
 
@@ -79,6 +76,14 @@ class PrepareToGameFragment : DaggerFragment() {
     private fun initRecyclerView() {
         rvPlayersList.layoutManager = LinearLayoutManager(context)
         rvPlayersList.adapter = adapter
+    }
+
+    private fun showDialogAddNewPlayer() {
+        val dialog = Dialog(context!!)
+        dialog.setContentView(R.layout.dialog_add_player)
+        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
+        dialog.show()
     }
 }
 
