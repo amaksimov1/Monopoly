@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.ui.fragment.gameboardfragment
+package ru.welokot.monopoly.ui.fragment.gameboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
