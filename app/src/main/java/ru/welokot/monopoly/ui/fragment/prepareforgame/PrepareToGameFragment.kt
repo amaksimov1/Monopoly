@@ -44,30 +44,30 @@ class PrepareToGameFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        initListeners()
+        //initListeners()
         initAdapters()
         initRecyclerView()
     }
 
-    private fun initListeners() {
-        btnAddNewPlayer.setOnClickListener {
-            tvHint.visibility = View.GONE
-            adapter.addPlayer()
-        }
-
-        btnLoadGame.setOnClickListener {
-            Toast.makeText(
-                activity,
-                "Скоро будет",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        btnStartGame.setOnClickListener {
-            tvHint.visibility = View.GONE
-            showDialogAddNewPlayer()
-        }
-    }
+//    private fun initListeners() {
+//        btnAddNewPlayer.setOnClickListener {
+//            tvHint.visibility = View.GONE
+//            adapter.addPlayer()
+//        }
+//
+//        btnLoadGame.setOnClickListener {
+//            Toast.makeText(
+//                activity,
+//                "Скоро будет",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+//
+//        btnStartGame.setOnClickListener {
+//            tvHint.visibility = View.GONE
+//            showDialogAddNewPlayer()
+//        }
+//    }
 
     private fun initAdapters() {
         adapter = PrepareToGameAdapter()
