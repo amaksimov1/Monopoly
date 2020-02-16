@@ -2,13 +2,9 @@
     <string name="app_name">Monopoly</string>
     <string name="button_load_players">Загрузить игроков</string>
     <string name="btn_start_game">Начать игру</string>
-    <string name="textview_hint">
-        Небольшая подсказка\n\n
-        Чтобы начать новую игру, нажмите на плюсик,
-        добавьте игроков, а после нажмите на кнопку \"Начать игру\".\n\n
-        Чтобы загрузить игроков из прошлой сессии, нажмите на кнопку \"Загрузить игроков\", а
-        потом на кнопку \"Начать игру\"</string>
+    <string name="main_hint">Небольшая подсказка:\n\nЧтобы добавить игрока, нажмите на плюс".\n\nЧтобы загрузить игроков из прошлой сессии, удерживайте плюс и потом нажмите \"Загрузить игроков\".\n\nЕсли все игроки добавлены, удерживайте плюс и потом нажмите на кнопку \"Начать игру\".</string>
     <string name="hint_player_name">Имя игрока</string>
-    <string name="hint_capital">Капитал (Формат: 100м)</string>
+    <string name="hint_capital">Капитал (в миллионах)</string>
     <string name="btn_add_player">Добавить игрока</string>
+    <string name="closeDialog">Закрыть</string>
 </resources>

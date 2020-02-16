@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="player_icon">
+        <item>@drawable/img_social_android</item>
+        <item>@drawable/img_social_apple</item>
+        <item>@drawable/img_social_behance</item>
+        <item>@drawable/img_social_blogger</item>
+        <item>@drawable/img_social_deviantart</item>
+        <item>@drawable/img_social_dribbble</item>
+        <item>@drawable/img_social_envato</item>
+        <item>@drawable/img_social_evernote</item>
+        <item>@drawable/img_social_facebook</item>
+        <item>@drawable/img_social_flickr</item>
+        <item>@drawable/img_social_instagram</item>
+        <item>@drawable/img_social_linkedin</item>
+        <item>@drawable/img_social_pinterest</item>
+        <item>@drawable/img_social_skype</item>
+        <item>@drawable/img_social_soundcould</item>
+        <item>@drawable/img_social_tumblr</item>
+        <item>@drawable/img_social_twitter</item>
+        <item>@drawable/img_social_vimeo</item>
+        <item>@drawable/img_social_youtube</item>
+    </integer-array>
+</resources>

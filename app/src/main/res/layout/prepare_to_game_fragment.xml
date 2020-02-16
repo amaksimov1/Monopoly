@@ -6,22 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/back_drop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/overlay_dark_30"
-        android:clickable="true"
-        android:fitsSystemWindows="true" />
-
     <TextView
         android:id="@+id/tvHint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_middle"
-        android:layout_marginEnd="@dimen/spacing_middle"
-        android:text="@string/textview_hint"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/main_hint"
         android:textAlignment="center"
+        android:textColor="@color/grey_400"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,10 +24,6 @@
         android:id="@+id/rvPlayersList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,67 +32,96 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/tvStartGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/btn_rounded_accent"
-        android:gravity="center"
-        android:padding="@dimen/spacing_xmedium"
-        android:paddingStart="@dimen/spacing_middle"
-        android:paddingEnd="@dimen/spacing_middle"
-        android:text="@string/btn_start_game"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/fabStartGame"
-        app:layout_constraintEnd_toStartOf="@+id/fabStartGame"
-        app:layout_constraintTop_toTopOf="@+id/fabStartGame" />
+    <View
+        android:id="@+id/back_drop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_dark_30"
+        android:clickable="true"
+        android:fitsSystemWindows="true" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabStartGame"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clStartGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/fabAddOldPlayers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_done"
-        app:backgroundTint="@color/colorPrimary"/>
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/clAddOldPlayers"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/tvAddPlayers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/btn_rounded_accent"
-        android:gravity="center"
-        android:padding="@dimen/spacing_xmedium"
-        android:paddingStart="@dimen/spacing_middle"
-        android:paddingEnd="@dimen/spacing_middle"
-        android:text="@string/button_load_players"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/fabAddOldPlayers"
-        app:layout_constraintEnd_toStartOf="@+id/fabAddOldPlayers"
-        app:layout_constraintTop_toTopOf="@+id/fabAddOldPlayers" />
+        <TextView
+            android:id="@+id/tvStartGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/btn_rounded_accent"
+            android:gravity="center"
+            android:padding="@dimen/spacing_xmedium"
+            android:paddingStart="@dimen/spacing_middle"
+            android:paddingEnd="@dimen/spacing_middle"
+            android:text="@string/btn_start_game"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/fabStartGame"
+            app:layout_constraintEnd_toStartOf="@+id/fabStartGame"
+            app:layout_constraintTop_toTopOf="@+id/fabStartGame" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddOldPlayers"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabStartGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="0dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_done" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAddOldPlayers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        app:fabSize="mini"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/fabAddNewPlayer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_accessibility"
-        app:backgroundTint="@color/colorPrimary"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddOldPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:outlineSpotShadowColor="#00000000"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="0dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_accessibility" />
+
+        <TextView
+            android:id="@+id/tvAddPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/btn_rounded_accent"
+            android:gravity="center"
+            android:padding="@dimen/spacing_xmedium"
+            android:paddingStart="@dimen/spacing_middle"
+            android:paddingEnd="@dimen/spacing_middle"
+            android:text="@string/button_load_players"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/fabAddOldPlayers"
+            app:layout_constraintEnd_toStartOf="@+id/fabAddOldPlayers"
+            app:layout_constraintTop_toTopOf="@+id/fabAddOldPlayers" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddNewPlayer"
@@ -116,20 +134,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add"
         app:backgroundTint="@color/colorPrimary"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="595dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="571dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

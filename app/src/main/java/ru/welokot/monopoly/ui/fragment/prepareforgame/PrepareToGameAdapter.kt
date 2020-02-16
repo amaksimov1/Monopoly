@@ -1,29 +1,39 @@
 package ru.welokot.monopoly.ui.fragment.prepareforgame
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_swipe.view.*
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.db.Player
 
 
-class PrepareToGameAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var list = mutableListOf<Int>()
+    private var playersList = mutableListOf<Player>()
 
-    fun addPlayer() {
-        list.add(0)
-        notifyItemInserted(list.size-1)
+    fun updatePlayersList(newPlayers: MutableList<Player>) {
+        playersList = newPlayers
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_swipe, parent, false)
-        return Holder(v)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_swipe, parent, false)
+        return Holder(view)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = playersList.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) { }
+    @SuppressLint("Recycle")
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.itemView.tvName.text = playersList[position].name
+        holder.itemView.tvCapital.text = playersList[position].capital.toString()
+        holder.itemView.ivImage.setImageDrawable(context.resources.obtainTypedArray(R.array.player_icon).getDrawable(playersList[position].icon))
+    }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
+
