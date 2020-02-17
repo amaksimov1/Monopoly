@@ -20,6 +20,7 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.utils.ViewAnimation
 import javax.inject.Inject
 import kotlin.random.Random
@@ -79,11 +80,7 @@ class PrepareToGameFragment : DaggerFragment() {
         }
 
         fabStartGame.setOnClickListener {
-            Toast.makeText(
-                activity,
-                "Скоро будет",
-                Toast.LENGTH_SHORT
-            ).show()
+            Router.showGameBoardFragment(activity!!.supportFragmentManager, viewModel.getPlayersList())
         }
 
         back_drop.setOnClickListener {
@@ -101,7 +98,7 @@ class PrepareToGameFragment : DaggerFragment() {
 
         val callback = DragManageAdapter(
             viewModel,
-            ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
+            0,
             ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
         )
         val helper = ItemTouchHelper(callback)

@@ -1,10 +1,10 @@
-package ru.welokot.monopoly.ui.fragment.prepareforgame
+package ru.welokot.monopoly.ui.fragment.gameboard
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class DragManageAdapter(
-    private val viewModel: PrepareToGameViewModel,
+    private val viewModel: GameBoardViewModel,
     dragDirs: Int,
     swipeDirs: Int
 ): ItemTouchHelper.SimpleCallback(
@@ -20,7 +20,5 @@ class DragManageAdapter(
     override fun onSwiped(
         viewHolder: RecyclerView.ViewHolder,
         direction: Int
-    ) {
-        viewModel.deletePlayer(viewHolder.adapterPosition)
-    }
+    ) {}
 }
