@@ -11,7 +11,7 @@ import nz.co.trademe.covert.Covert
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
 
-class GameBoardAdapter(private val context: Context, private val covert: Covert) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class GameBoardAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var playersList = mutableListOf<Player>()
 
@@ -29,8 +29,6 @@ class GameBoardAdapter(private val context: Context, private val covert: Covert)
 
     @SuppressLint("Recycle")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        covert.drawCornerFlag(holder)
-
         holder.itemView.tvName.text = playersList[position].name
         holder.itemView.tvCapital.text = playersList[position].capital.toString()
         holder.itemView.ivImage.setImageDrawable(context.resources.obtainTypedArray(R.array.player_icon).getDrawable(playersList[position].icon))

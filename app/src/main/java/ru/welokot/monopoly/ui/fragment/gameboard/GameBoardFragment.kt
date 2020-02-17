@@ -12,14 +12,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
-import kotlinx.android.synthetic.main.game_board_fragment.rvPlayersList
-import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
-import nz.co.trademe.covert.Covert
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
-import ru.welokot.monopoly.ui.fragment.prepareforgame.DragManageAdapter
-import ru.welokot.monopoly.ui.fragment.prepareforgame.PrepareToGameAdapter
-import ru.welokot.monopoly.ui.fragment.prepareforgame.PrepareToGameViewModel
 import java.io.Serializable
 import javax.inject.Inject
 
@@ -72,37 +66,20 @@ class GameBoardFragment: DaggerFragment() {
     }
 
     private fun initAdapters() {
-        val covertConfig = Covert.Config(
-            iconRes = R.drawable.ic_done,               // The icon to show
-            iconDefaultColorRes = R.color.brown_300,            // The color of the icon
-            actionColorRes = R.color.colorPrimary           // The color of the background
-        )
-
-        val covert = Covert.with(covertConfig)
-            .setIsActiveCallback {
-                // This is a callback to check if the item is active, i.e checked
-                repository.isActive(it.adapterPosition)
-            }
-            .doOnSwipe { viewHolder, _ ->
-                // This callback is fired when a ViewHolder is swiped
-                repository.toggleActiveState(viewHolder.adapterPosition)
-            }
-            .attachTo(rvPlayersList)
-
-        adapter = GameBoardAdapter(context!!, covert)
+        adapter = GameBoardAdapter(context!!)
     }
 
     private fun initRecyclerView() {
         rvPlayersList.layoutManager = LinearLayoutManager(context)
         rvPlayersList.adapter = adapter
 
-//        val callback = DragManageAdapter(
-//            viewModel,
-//            0,
-//            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
-//        )
-//        val helper = ItemTouchHelper(callback)
-//        helper.attachToRecyclerView(rvPlayersList)
+        val callback = DragManageAdapter(
+            viewModel,
+            0,
+            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
+        )
+        val helper = ItemTouchHelper(callback)
+        helper.attachToRecyclerView(rvPlayersList)
     }
 
     private fun initFab() {
