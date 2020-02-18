@@ -10,6 +10,7 @@ object Router {
 
     fun showGameBoardFragment(supportFragmentManager: FragmentManager, players: MutableList<Player>){
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(
                 R.id.container,
                 GameBoardFragment.newInstance(players),
@@ -20,6 +21,7 @@ object Router {
 
     fun showPrepareToGameFragment(supportFragmentManager: FragmentManager) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
             .replace(
                 R.id.container,
                 PrepareToGameFragment(),

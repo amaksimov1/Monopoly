@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_swipe.view.*
-import nz.co.trademe.covert.Covert
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
 
