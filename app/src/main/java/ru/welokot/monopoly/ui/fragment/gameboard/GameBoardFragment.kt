@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.daimajia.swipe.util.Attributes
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
 import ru.welokot.monopoly.R
@@ -53,7 +53,6 @@ class GameBoardFragment: DaggerFragment() {
         initListeners()
         initAdapters()
         initRecyclerView()
-        initFab()
         initObservers()
 
         viewModel.playersListLiveData.postValue(arguments!!.getSerializable(CODE_KEY) as MutableList<Player>)
@@ -66,24 +65,14 @@ class GameBoardFragment: DaggerFragment() {
     }
 
     private fun initAdapters() {
-        adapter = GameBoardAdapter(context!!)
+        val gameBoardAdapter = GameBoardAdapter(viewModel)
+        adapter = gameBoardAdapter
     }
 
     private fun initRecyclerView() {
         rvPlayersList.layoutManager = LinearLayoutManager(context)
+        rvPlayersList.setHasFixedSize(true)
         rvPlayersList.adapter = adapter
-
-        val callback = DragManageAdapter(
-            viewModel,
-            0,
-            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
-        )
-        val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(rvPlayersList)
-    }
-
-    private fun initFab() {
-        Toast.makeText(context, "Скоро будет", Toast.LENGTH_SHORT).show()
     }
 
     private fun initObservers() {

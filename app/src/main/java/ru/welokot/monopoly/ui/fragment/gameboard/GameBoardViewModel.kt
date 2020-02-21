@@ -30,6 +30,17 @@ class GameBoardViewModel
             }
         }
     }
+
+    fun deleteTransaction(position: Int) {
+        transferMoneyTo.remove(position)
+        transferMoneyFrom.remove(position)
+    }
+
+    fun getTypeTransaction(position: Int): TypeTransaction? {
+        if (position in transferMoneyTo) return TypeTransaction.TO
+        else if (position in transferMoneyFrom) return TypeTransaction.FROM
+        return null
+    }
 }
 
 enum class TypeTransaction {
