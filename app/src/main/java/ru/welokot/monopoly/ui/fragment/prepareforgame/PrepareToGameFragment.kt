@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -56,6 +57,8 @@ class PrepareToGameFragment : DaggerFragment() {
         initRecyclerView()
         initFab()
         initObservers()
+
+        updateButtonState()
     }
 
     private fun initListeners() {
@@ -80,7 +83,9 @@ class PrepareToGameFragment : DaggerFragment() {
         }
 
         fabStartGame.setOnClickListener {
-            Router.showGameBoardFragment(activity!!.supportFragmentManager, viewModel.getPlayersList())
+            if (it.isEnabled) {
+                Router.showGameBoardFragment(activity!!.supportFragmentManager, viewModel.getPlayersList())
+            }
         }
 
         back_drop.setOnClickListener {
@@ -96,11 +101,25 @@ class PrepareToGameFragment : DaggerFragment() {
         rvPlayersList.layoutManager = LinearLayoutManager(context)
         rvPlayersList.adapter = adapter
 
-        val callback = DragManageAdapter(
-            viewModel,
+        val callback = object : ItemTouchHelper.SimpleCallback(
             0,
-            ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)
-        )
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.deletePlayer(viewHolder.adapterPosition)
+                updateButtonState()
+            }
+
+        }
+
         val helper = ItemTouchHelper(callback)
         helper.attachToRecyclerView(rvPlayersList)
     }
@@ -120,14 +139,23 @@ class PrepareToGameFragment : DaggerFragment() {
         dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
 
         dialog.findViewById<AppCompatButton>(R.id.btnAddPlayer).setOnClickListener {
-            viewModel.addPlayer(
-                Player(
-                    name = dialog.findViewById<TextInputEditText>(R.id.tiedName).text.toString(),
-                    capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text.toString().toDouble(),
-                    icon = Random.nextInt(context!!.resources.obtainTypedArray(R.array.player_icon).length())
-                )
-            )
-            dialog.findViewById<TextInputEditText>(R.id.tiedName).setText("")
+            if (dialog.findViewById<TextInputEditText>(R.id.tiedName).text!!.isNotEmpty()) {
+                if (dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text!!.isNotEmpty()) {
+                    viewModel.addPlayer(
+                        Player(
+                            name = dialog.findViewById<TextInputEditText>(R.id.tiedName).text.toString(),
+                            capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text.toString().toDouble(),
+                            icon = Random.nextInt(context!!.resources.obtainTypedArray(R.array.player_icon).length())
+                        )
+                    )
+                    dialog.findViewById<TextInputEditText>(R.id.tiedName).setText("")
+                    updateButtonState()
+                } else {
+                    dialog.findViewById<TextInputEditText>(R.id.tiedCapital).error = "Введите капитал"
+                }
+            } else {
+                dialog.findViewById<TextInputEditText>(R.id.tiedName).error = "Введите имя"
+            }
         }
 
         dialog.findViewById<AppCompatButton>(R.id.btnCloseDialog).setOnClickListener {
@@ -138,7 +166,6 @@ class PrepareToGameFragment : DaggerFragment() {
     }
 
     private fun initFab() {
-        ViewAnimation.initShowOut(clStartGame)
         ViewAnimation.initShowOut(clAddOldPlayers)
         back_drop.visibility = View.GONE
     }
@@ -146,13 +173,15 @@ class PrepareToGameFragment : DaggerFragment() {
     private fun toggleFabMode(v: View) {
         rotate = ViewAnimation.rotateFab(v, !rotate)
         if (rotate) {
-            ViewAnimation.showIn(clStartGame)
             ViewAnimation.showIn(clAddOldPlayers)
             back_drop.visibility = View.VISIBLE
         } else {
-            ViewAnimation.showOut(clStartGame)
             ViewAnimation.showOut(clAddOldPlayers)
             back_drop.visibility = View.GONE
         }
+    }
+
+    fun updateButtonState() {
+        fabStartGame.isEnabled = viewModel.getPlayersList().size >= 2
     }
 }

@@ -7,7 +7,9 @@ import ru.welokot.monopoly.db.AppDatabase
 import ru.welokot.monopoly.db.Player
 import javax.inject.Inject
 
-class PrepareToGameViewModel @Inject constructor( val appDatabase: AppDatabase ) : ViewModel() {
+class PrepareToGameViewModel @Inject constructor(
+    val appDatabase: AppDatabase
+) : ViewModel() {
 
     private val playersList: MutableList<Player> = mutableListOf()
 

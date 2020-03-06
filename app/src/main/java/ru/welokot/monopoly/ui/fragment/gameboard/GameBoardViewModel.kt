@@ -14,7 +14,7 @@ class GameBoardViewModel
 
     var playersListLiveData: MutableLiveData<MutableList<Player>> = MutableLiveData()
 
-    fun updatePlayersList(players: MutableList<Player>) {
+    fun setPlayersList(players: MutableList<Player>) {
         playersList = mutableListOf()
         playersList.addAll(players)
         playersListLiveData.postValue(playersList)
@@ -40,6 +40,25 @@ class GameBoardViewModel
         if (position in transferMoneyTo) return TypeTransaction.TO
         else if (position in transferMoneyFrom) return TypeTransaction.FROM
         return null
+    }
+
+    fun commitTransfer(transferAmount: Float) {
+        transferMoneyTo.forEach {
+            for (i in 0 until transferMoneyFrom.size) {
+                playersList[it].capital += transferAmount
+            }
+        }
+
+        transferMoneyFrom.forEach {
+            for (i in 0 until transferMoneyTo.size) {
+                playersList[it].capital -= transferAmount
+            }
+        }
+
+        transferMoneyTo.clear()
+        transferMoneyFrom.clear()
+
+        playersListLiveData.postValue(playersList)
     }
 }
 

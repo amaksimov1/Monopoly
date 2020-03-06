@@ -32,6 +32,26 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/fabStartGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingStart="@dimen/spacing_large"
+        android:paddingEnd="@dimen/spacing_large"
+        android:padding="@dimen/spacing_xmedium"
+        android:text="Начать игру"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fabAddNewPlayer"
+        app:layout_constraintEnd_toStartOf="@+id/fabAddNewPlayer"
+        app:layout_constraintTop_toTopOf="@+id/fabAddNewPlayer"
+        android:enabled="false"/>
+
     <View
         android:id="@+id/back_drop"
         android:layout_width="match_parent"
@@ -39,47 +59,6 @@
         android:background="@color/overlay_dark_30"
         android:clickable="true"
         android:fitsSystemWindows="true" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clStartGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/clAddOldPlayers"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/tvStartGame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/btn_rounded_accent"
-            android:gravity="center"
-            android:padding="@dimen/spacing_xmedium"
-            android:paddingStart="@dimen/spacing_middle"
-            android:paddingEnd="@dimen/spacing_middle"
-            android:text="@string/btn_start_game"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="@+id/fabStartGame"
-            app:layout_constraintEnd_toStartOf="@+id/fabStartGame"
-            app:layout_constraintTop_toTopOf="@+id/fabStartGame" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabStartGame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:backgroundTint="@color/colorPrimary"
-            app:elevation="0dp"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_done" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAddOldPlayers"
@@ -104,23 +83,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_accessibility" />
 
-        <TextView
-            android:id="@+id/tvAddPlayers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/btn_rounded_accent"
-            android:gravity="center"
-            android:padding="@dimen/spacing_xmedium"
-            android:paddingStart="@dimen/spacing_middle"
-            android:paddingEnd="@dimen/spacing_middle"
-            android:text="@string/button_load_players"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="@+id/fabAddOldPlayers"
-            app:layout_constraintEnd_toStartOf="@+id/fabAddOldPlayers"
-            app:layout_constraintTop_toTopOf="@+id/fabAddOldPlayers" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -134,6 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add"
         app:backgroundTint="@color/colorPrimary"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

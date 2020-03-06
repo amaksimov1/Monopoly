@@ -13,46 +13,56 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiedName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint_player_name"
-            android:singleLine="true"
-            app:errorEnabled="true"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilCapital"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/spacing_middle"
+        android:textColorHint="@color/colorPrimary"
+        app:hintTextColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/fabStartGame"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiedCapital"
-            android:inputType="numberDecimal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_capital"
+            android:inputType="number"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:text="15"
-            app:errorEnabled="true"/>
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            app:errorEnabled="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/fabStartGame"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="K"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tilCapital"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tilCapital" />
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddPlayer"
+        android:id="@+id/btnCommitTransfer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_rounded_accent"
         android:stateListAnimator="@null"
-        android:text="@string/btn_add_player"
+        android:text="@string/commit_transfer"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +79,6 @@
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddPlayer" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCommitTransfer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

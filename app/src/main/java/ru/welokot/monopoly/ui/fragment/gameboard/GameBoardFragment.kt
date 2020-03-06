@@ -1,15 +1,18 @@
 package ru.welokot.monopoly.ui.fragment.gameboard
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.WindowManager
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.daimajia.swipe.util.Attributes
+import com.google.android.material.textfield.TextInputEditText
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
 import ru.welokot.monopoly.R
@@ -55,17 +58,17 @@ class GameBoardFragment: DaggerFragment() {
         initRecyclerView()
         initObservers()
 
-        viewModel.playersListLiveData.postValue(arguments!!.getSerializable(CODE_KEY) as MutableList<Player>)
+        viewModel.setPlayersList(arguments!!.getSerializable(CODE_KEY) as MutableList<Player>)
     }
 
     private fun initListeners() {
         fabMoneyTransfer.setOnClickListener {
-            Toast.makeText(context, "Скоро будет", Toast.LENGTH_SHORT).show()
+            showDialogCommitTransfer()
         }
     }
 
     private fun initAdapters() {
-        val gameBoardAdapter = GameBoardAdapter(viewModel)
+        val gameBoardAdapter = GameBoardAdapter(viewModel, context!!)
         adapter = gameBoardAdapter
     }
 
@@ -79,5 +82,29 @@ class GameBoardFragment: DaggerFragment() {
         viewModel.playersListLiveData.observe(this as LifecycleOwner, Observer {
             adapter.updatePlayersList(it)
         })
+    }
+
+    @SuppressLint("Recycle")
+    private fun showDialogCommitTransfer() {
+        val dialog = Dialog(context!!)
+        dialog.setContentView(R.layout.dialog_start_transfer_money)
+        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
+
+        dialog.findViewById<AppCompatButton>(R.id.btnCommitTransfer).setOnClickListener {
+            val capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text!!
+            if (capital.isNotEmpty()) {
+                viewModel.commitTransfer(capital.toString().toFloat())
+                dialog.dismiss()
+            } else {
+                dialog.findViewById<TextInputEditText>(R.id.tiedCapital).error = "Введите капитал"
+            }
+        }
+
+        dialog.findViewById<AppCompatButton>(R.id.btnCloseDialog).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

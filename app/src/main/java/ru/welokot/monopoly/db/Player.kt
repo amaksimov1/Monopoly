@@ -13,7 +13,7 @@ data class Player(
     val name: String,
 
     @ColumnInfo(name = "cash")
-    val capital: Double,
+    var capital: Double,
 
     @ColumnInfo(name = "icon")
     val icon: Int = 0
