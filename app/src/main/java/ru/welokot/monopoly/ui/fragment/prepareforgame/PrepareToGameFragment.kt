@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.dialog_add_player.*
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
@@ -134,32 +135,29 @@ class PrepareToGameFragment : DaggerFragment() {
     @SuppressLint("Recycle")
     private fun showDialogAddNewPlayer() {
         val dialog = Dialog(context!!)
-        dialog.setContentView(R.layout.dialog_add_player)
-        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
 
-        dialog.findViewById<AppCompatButton>(R.id.btnAddPlayer).setOnClickListener {
-            if (dialog.findViewById<TextInputEditText>(R.id.tiedName).text!!.isNotEmpty()) {
-                if (dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text!!.isNotEmpty()) {
+        dialog.apply {
+            setContentView(R.layout.dialog_add_player)
+            window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
+
+            btnAddPlayer.setOnClickListener {
+                if (it.isEnabled) {
                     viewModel.addPlayer(
                         Player(
-                            name = dialog.findViewById<TextInputEditText>(R.id.tiedName).text.toString(),
-                            capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text.toString().toDouble(),
-                            icon = Random.nextInt(context!!.resources.obtainTypedArray(R.array.player_icon).length())
+                            name = tiedName.text.toString(),
+                            capital = if (tiedCapital.text.isNullOrEmpty()) 0.0 else tiedCapital.text.toString().toDouble(),
+                            icon = Random.nextInt(context.resources.obtainTypedArray(R.array.player_icon).length())
                         )
                     )
-                    dialog.findViewById<TextInputEditText>(R.id.tiedName).setText("")
-                    updateButtonState()
-                } else {
-                    dialog.findViewById<TextInputEditText>(R.id.tiedCapital).error = "Введите капитал"
+                    tiedName.setText("")
                 }
-            } else {
-                dialog.findViewById<TextInputEditText>(R.id.tiedName).error = "Введите имя"
+                updateButtonState()
             }
-        }
 
-        dialog.findViewById<AppCompatButton>(R.id.btnCloseDialog).setOnClickListener {
-            dialog.dismiss()
+            btnCloseDialog.setOnClickListener {
+                dialog.dismiss()
+            }
         }
 
         dialog.show()

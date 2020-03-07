@@ -36,10 +36,12 @@ class GameBoardViewModel
         transferMoneyFrom.remove(position)
     }
 
-    fun getTypeTransaction(position: Int): TypeTransaction? {
-        if (position in transferMoneyTo) return TypeTransaction.TO
-        else if (position in transferMoneyFrom) return TypeTransaction.FROM
-        return null
+    fun getTypeTransaction(position: Int): TypeTransaction {
+        return when (position) {
+            in transferMoneyTo -> TypeTransaction.TO
+            in transferMoneyFrom -> TypeTransaction.FROM
+            else -> TypeTransaction.NOTHING
+        }
     }
 
     fun commitTransfer(transferAmount: Float) {
@@ -64,5 +66,6 @@ class GameBoardViewModel
 
 enum class TypeTransaction {
     TO,
-    FROM
+    FROM,
+    NOTHING
 }

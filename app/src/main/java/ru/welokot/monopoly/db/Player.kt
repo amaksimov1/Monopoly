@@ -2,6 +2,8 @@ package ru.welokot.monopoly.db
 
 import androidx.room.*
 import java.io.Serializable
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 @Entity(tableName = "players")
 data class Player(
@@ -17,4 +19,15 @@ data class Player(
 
     @ColumnInfo(name = "icon")
     val icon: Int = 0
-): Serializable
+
+): Serializable {
+
+    fun getFormattedCapital() : String {
+        var str = "$ "
+        str += capital.toInt()
+        str += " - "
+        val decimal = capital - capital.toInt()
+        str += if (abs(decimal) < 0.001) " 000" else (decimal*1000).roundToInt()
+        return str
+    }
+}
