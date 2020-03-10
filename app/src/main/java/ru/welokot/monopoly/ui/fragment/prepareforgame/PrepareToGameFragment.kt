@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -42,53 +40,31 @@ class PrepareToGameFragment : DaggerFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         viewModel = ViewModelProvider(this, providerFactory).get(PrepareToGameViewModel::class.java)
-
         return inflater.inflate(R.layout.prepare_to_game_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        initListeners()
+        initClicks()
         initAdapters()
         initRecyclerView()
-        initFab()
+        initListeners()
         initObservers()
-
-        updateButtonState()
     }
 
-    private fun initListeners() {
-        fabAddNewPlayer.setOnLongClickListener {
-            toggleFabMode(it)
-            true
-        }
-
-        fabAddNewPlayer.setOnClickListener {
-            if (!rotate) {
-                showDialogAddNewPlayer()
-            }
-            else toggleFabMode(it)
-        }
-
-        fabAddOldPlayers.setOnClickListener {
-            Toast.makeText(
-                activity,
-                "Скоро будет",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        fabStartGame.setOnClickListener {
+    private fun initClicks() {
+        btn_start_game.setOnClickListener {
             if (it.isEnabled) {
-                Router.showGameBoardFragment(activity!!.supportFragmentManager, viewModel.getPlayersList())
+                Toast.makeText(context, "Начало игры", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Добавьте по крайней мере 2 игроков", Toast.LENGTH_SHORT).show()
             }
         }
 
-        back_drop.setOnClickListener {
-            toggleFabMode(fabAddNewPlayer)
+        btn_load_previous_games.setOnClickListener {
+            Toast.makeText(context, "Экран загрузки предыдущих игр", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -97,87 +73,20 @@ class PrepareToGameFragment : DaggerFragment() {
     }
 
     private fun initRecyclerView() {
-        rvPlayersList.layoutManager = LinearLayoutManager(context)
-        rvPlayersList.adapter = adapter
+        rv_players_list.layoutManager = LinearLayoutManager(context)
+        rv_players_list.adapter = this.adapter
+        rv_players_list.isNestedScrollingEnabled = true
+    }
 
-        val callback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewModel.deletePlayer(viewHolder.adapterPosition)
-                updateButtonState()
-            }
-
-        }
-
-        val helper = ItemTouchHelper(callback)
-        helper.attachToRecyclerView(rvPlayersList)
+    private fun initListeners() {
+        viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer{
+            adapter.setPlayers(it)
+        })
     }
 
     private fun initObservers() {
-        viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer {
-            adapter.updatePlayersList(it)
-        })
 
     }
 
-    @SuppressLint("Recycle")
-    private fun showDialogAddNewPlayer() {
-        val dialog = Dialog(context!!)
 
-        dialog.apply {
-            setContentView(R.layout.dialog_main)
-            window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-            window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
-
-            btnAction.setOnClickListener {
-                if (it.isEnabled) {
-                    viewModel.addPlayer(
-                        Player(
-                            name = tiedName.text.toString(),
-                            capital = if (tiedCapital.text.isNullOrEmpty()) 0.0 else tiedCapital.text.toString().toDouble(),
-                            icon = Random.nextInt(context.resources.obtainTypedArray(R.array.player_icon).length())
-                        )
-                    )
-                    tiedName.setText("")
-                }
-                updateButtonState()
-            }
-
-            btnCloseDialog.setOnClickListener {
-                dialog.dismiss()
-            }
-        }
-
-        dialog.show()
-    }
-
-    private fun initFab() {
-        ViewAnimation.initShowOut(clAddOldPlayers)
-        back_drop.visibility = View.GONE
-    }
-
-    private fun toggleFabMode(v: View) {
-        rotate = ViewAnimation.rotateFab(v, !rotate)
-        if (rotate) {
-            ViewAnimation.showIn(clAddOldPlayers)
-            back_drop.visibility = View.VISIBLE
-        } else {
-            ViewAnimation.showOut(clAddOldPlayers)
-            back_drop.visibility = View.GONE
-        }
-    }
-
-    fun updateButtonState() {
-        fabStartGame.isEnabled = viewModel.getPlayersList().size >= 2
-    }
 }

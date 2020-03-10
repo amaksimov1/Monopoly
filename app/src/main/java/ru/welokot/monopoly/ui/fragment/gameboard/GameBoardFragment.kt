@@ -87,21 +87,21 @@ class GameBoardFragment: DaggerFragment() {
     @SuppressLint("Recycle")
     private fun showDialogCommitTransfer() {
         val dialog = Dialog(context!!)
-        dialog.setContentView(R.layout.dialog_start_transfer_money)
+        //dialog.setContentView(R.layout.dialog_start_transfer_money)
         dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
 
-        dialog.findViewById<AppCompatButton>(R.id.btnCommitTransfer).setOnClickListener {
-            val capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text!!
-            if (capital.isNotEmpty()) {
-                viewModel.commitTransfer(capital.toString().toFloat())
-                dialog.dismiss()
-            } else {
-                dialog.findViewById<TextInputEditText>(R.id.tiedCapital).error = "Введите капитал"
-            }
-        }
+//        dialog.findViewById<AppCompatButton>(R.id.btnCommitTransfer).setOnClickListener {
+//            val capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text!!
+//            if (capital.isNotEmpty()) {
+//                viewModel.commitTransfer(capital.toString().toFloat())
+//                dialog.dismiss()
+//            } else {
+//                dialog.findViewById<TextInputEditText>(R.id.tiedCapital).error = "Введите капитал"
+//            }
+//        }
 
-        dialog.findViewById<AppCompatButton>(R.id.btnCloseDialog).setOnClickListener {
+        dialog.findViewById<AppCompatButton>(R.id.btnClose).setOnClickListener {
             dialog.dismiss()
         }
 

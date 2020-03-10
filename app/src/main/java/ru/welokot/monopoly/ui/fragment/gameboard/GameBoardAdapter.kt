@@ -75,12 +75,12 @@ class GameBoardAdapter(
     }
 
     private fun setGreenIcon(holder: RecyclerView.ViewHolder) {
-        holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_call_received_green_24dp))
+        holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_call_received_24dp))
         holder.itemView.ivAction.setColorFilter(ContextCompat.getColor(context, R.color.green_A700))
     }
 
     private fun setRedIcon(holder: RecyclerView.ViewHolder) {
-        holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_call_made_red_24dp))
+        //holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_call_made_red_24dp))
         holder.itemView.ivAction.setColorFilter(ContextCompat.getColor(context, R.color.red_A700))
     }
     private fun setGreyIcon(holder: RecyclerView.ViewHolder) {

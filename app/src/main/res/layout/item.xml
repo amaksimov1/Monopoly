@@ -6,7 +6,7 @@
     android:layout_weight="1"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@color/white">
+    android:background="@color/colorOnPrimary">
 
     <ImageView
         android:id="@+id/ivImage"

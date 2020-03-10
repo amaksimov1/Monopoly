@@ -5,15 +5,15 @@
     android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/spacing_middle">
+    android:padding="@dimen/spacing_8">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCapitalType"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:layout_marginBottom="@dimen/spacing_8"
         android:text="М"
         app:layout_constraintBottom_toTopOf="@+id/btnAction"
         app:layout_constraintDimensionRatio="1:1"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:hint="@string/hint_player_name"
+            android:hint="@string/player_name"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,7 +52,7 @@
             android:id="@+id/tiedCapital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_capital"
+            android:hint="@string/capital"
             android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
             android:singleLine="true" />
@@ -63,19 +63,20 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/btn_add_player"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:text="@string/add_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilCapital" />
+        app:layout_constraintTop_toBottomOf="@+id/tilCapital"
+        android:enabled="false"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCloseDialog"
+        android:id="@+id/btnClose"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="@string/closeDialog"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:text="@string/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAction" />

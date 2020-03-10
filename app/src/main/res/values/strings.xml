@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Monopoly</string>
-    <string name="button_load_players">Загрузить игроков</string>
-    <string name="btn_start_game">Начать игру</string>
+    <string name="start_game">Начать игру</string>
     <string name="main_hint">Небольшая подсказка:\n\nЧтобы добавить игрока, нажмите на плюс".\n\nЧтобы загрузить игроков из прошлой сессии, удерживайте плюс и потом нажмите \"Загрузить игроков\".\n\nЕсли все игроки добавлены, нажмите на кнопку \"Начать игру\".</string>
-    <string name="hint_player_name">Имя игрока</string>
-    <string name="hint_capital">Капитал</string>
-    <string name="btn_add_player">Добавить игрока</string>
-    <string name="closeDialog">Закрыть</string>
+    <string name="player_name">Имя игрока</string>
+    <string name="capital">Капитал</string>
+    <string name="add_player">Добавить игрока</string>
+    <string name="close">Закрыть</string>
     <string name="commit_transfer">Совершить перевод</string>
+    <string name="previous_games">Предыдущие игры</string>
 </resources>

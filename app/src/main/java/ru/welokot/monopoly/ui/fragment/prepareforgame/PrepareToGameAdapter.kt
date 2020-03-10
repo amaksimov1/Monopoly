@@ -14,7 +14,7 @@ class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<
 
     private var playersList = mutableListOf<Player>()
 
-    fun updatePlayersList(newPlayers: MutableList<Player>) {
+    fun setPlayers(newPlayers: MutableList<Player>) {
         playersList = newPlayers
         notifyDataSetChanged()
     }
