@@ -7,13 +7,27 @@
     android:orientation="vertical"
     android:padding="@dimen/spacing_middle">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCapitalType"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="М"
+        app:layout_constraintBottom_toTopOf="@+id/btnAction"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilName" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiedName"
@@ -22,38 +36,35 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="@string/hint_player_name"
-            android:singleLine="true"
-            app:errorEnabled="true"/>
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilCapital"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCapitalType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiedCapital"
-            android:inputType="numberDecimal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_capital"
+            android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:text="15"
-            app:errorEnabled="true"/>
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddPlayer"
+        android:id="@+id/btnAction"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_rounded_accent"
-        android:stateListAnimator="@null"
+        android:layout_marginTop="8dp"
         android:text="@string/btn_add_player"
-        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilCapital" />
@@ -63,12 +74,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@null"
-        android:stateListAnimator="@null"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:text="@string/closeDialog"
-        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddPlayer" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAction" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

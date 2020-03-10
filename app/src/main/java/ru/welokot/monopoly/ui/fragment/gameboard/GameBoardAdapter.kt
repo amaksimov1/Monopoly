@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_swipe.view.*
+import kotlinx.android.synthetic.main.item.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
 
@@ -26,7 +26,7 @@ class GameBoardAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_swipe, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
         return Holder(view)
     }
 

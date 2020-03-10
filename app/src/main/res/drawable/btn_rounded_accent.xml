@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
+    <item android:state_enabled="true">
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
@@ -11,9 +11,9 @@
                         android:topLeftRadius="30dp"
                         android:topRightRadius="30dp"/>
 
-                    <solid android:color="@color/overlay_light_90" />
+                    <solid android:color="@color/lightPrimary" />
 
-                    <stroke android:width="3px" android:color="@color/colorPrimary" />
+                    <stroke android:width="3px" android:color="@color/colorPrimary"/>
 
                 </shape>
             </item>

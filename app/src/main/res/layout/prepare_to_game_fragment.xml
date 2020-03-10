@@ -32,13 +32,13 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
+    <com.google.android.material.button.MaterialButton
+        android:theme="@style/Widget.MaterialComponents.Button"
         android:id="@+id/fabStartGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded"
         android:clickable="true"
         android:gravity="center"
         android:paddingStart="@dimen/spacing_large"
@@ -60,30 +60,18 @@
         android:clickable="true"
         android:fitsSystemWindows="true" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clAddOldPlayers"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddOldPlayers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
+        android:outlineSpotShadowColor="#00000000"
+        app:elevation="0dp"
+        app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@+id/fabAddNewPlayer"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAddOldPlayers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:outlineSpotShadowColor="#00000000"
-            app:backgroundTint="@color/colorPrimary"
-            app:elevation="0dp"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_accessibility" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="@+id/fabAddNewPlayer"
+        app:layout_constraintStart_toStartOf="@+id/fabAddNewPlayer"
+        app:srcCompat="@drawable/ic_accessibility" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddNewPlayer"
@@ -91,11 +79,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:clickable="true"
+        app:backgroundTint="@color/lightPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add"
-        app:backgroundTint="@color/colorPrimary"/>
+        app:srcCompat="@drawable/ic_add" />
 
 
 

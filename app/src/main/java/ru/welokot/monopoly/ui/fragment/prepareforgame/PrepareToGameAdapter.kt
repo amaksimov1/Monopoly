@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_swipe.view.*
+import kotlinx.android.synthetic.main.item.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
 
@@ -20,7 +20,7 @@ class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_swipe, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
         return Holder(view)
     }
 

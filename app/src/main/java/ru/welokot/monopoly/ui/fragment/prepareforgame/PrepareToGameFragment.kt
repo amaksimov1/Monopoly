@@ -9,16 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.dialog_add_player.*
+import kotlinx.android.synthetic.main.dialog_main.*
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
@@ -137,11 +135,11 @@ class PrepareToGameFragment : DaggerFragment() {
         val dialog = Dialog(context!!)
 
         dialog.apply {
-            setContentView(R.layout.dialog_add_player)
+            setContentView(R.layout.dialog_main)
             window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
 
-            btnAddPlayer.setOnClickListener {
+            btnAction.setOnClickListener {
                 if (it.isEnabled) {
                     viewModel.addPlayer(
                         Player(
