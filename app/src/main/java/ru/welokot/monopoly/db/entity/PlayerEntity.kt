@@ -1,24 +1,18 @@
-package ru.welokot.monopoly.db
+package ru.welokot.monopoly.db.entity
 
 import androidx.room.*
 import ru.welokot.monopoly.models.TypeCapital
 import java.io.Serializable
-import kotlin.math.abs
-import kotlin.math.roundToInt
 
 @Entity(tableName = "players")
-data class Player(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "user_id")
+data class PlayerEntity(
+
+    //TODO (Добавление уникальных id)
+
+    @PrimaryKey
     var id: Int = 0,
-
-    @ColumnInfo(name = "name")
     var name: String = "name",
-
-    @ColumnInfo(name = "capital")
     private var capital: Int = 0,
-
-    @ColumnInfo(name = "icon")
     var icon: Int = 0
 
 ): Serializable {

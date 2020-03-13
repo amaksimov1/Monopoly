@@ -12,11 +12,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.textfield.TextInputEditText
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.db.entity.PlayerEntity
 import java.io.Serializable
 import javax.inject.Inject
 
@@ -24,7 +23,7 @@ class GameBoardFragment: DaggerFragment() {
 
     companion object {
         private const val CODE_KEY = "GameBoardFragment"
-        fun newInstance(players: MutableList<Player>): GameBoardFragment {
+        fun newInstance(players: MutableList<PlayerEntity>): GameBoardFragment {
             val fragment = GameBoardFragment()
             val bundle = Bundle()
             bundle.putSerializable(CODE_KEY, players as Serializable)
@@ -58,7 +57,7 @@ class GameBoardFragment: DaggerFragment() {
         initRecyclerView()
         initObservers()
 
-        viewModel.setPlayersList(arguments!!.getSerializable(CODE_KEY) as MutableList<Player>)
+        viewModel.setPlayersList(arguments!!.getSerializable(CODE_KEY) as MutableList<PlayerEntity>)
     }
 
     private fun initListeners() {

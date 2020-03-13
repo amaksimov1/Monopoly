@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item.view.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.db.entity.PlayerEntity
 
 class GameBoardAdapter(
 
@@ -18,9 +18,9 @@ class GameBoardAdapter(
 
 ) : RecyclerView.Adapter<GameBoardAdapter.Holder>() {
 
-    private var playersList = mutableListOf<Player>()
+    private var playersList = mutableListOf<PlayerEntity>()
 
-    fun updatePlayersList(newPlayers: MutableList<Player>) {
+    fun updatePlayersList(newPlayers: MutableList<PlayerEntity>) {
         playersList = newPlayers
         notifyDataSetChanged()
     }

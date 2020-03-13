@@ -6,19 +6,21 @@ import android.view.*
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.dialog_main.*
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import ru.welokot.monopoly.ui.dialog.WorkerWithMainDialog
 import javax.inject.Inject
 
 
-class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog {
+class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog, OnSwipedListener {
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
@@ -48,11 +50,8 @@ class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog {
 
     private fun initClicks() {
         btn_start_game.setOnClickListener {
-            if (it.isEnabled) {
-                Toast.makeText(context, "Начало игры", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Добавьте по крайней мере 2 игроков", Toast.LENGTH_SHORT).show()
-            }
+            //viewModel.addNewGameSession
+            Router.showGameBoardFragment(childFragmentManager, viewModel.getPlayersList())
         }
 
         btn_load_previous_games.setOnClickListener {
@@ -73,6 +72,10 @@ class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog {
         rv_players_list.layoutManager = LinearLayoutManager(context)
         rv_players_list.adapter = this.adapter
         rv_players_list.isNestedScrollingEnabled = true
+
+        val deleteCallback = DeleteCallback(this)
+        val helper = ItemTouchHelper(deleteCallback)
+        helper.attachToRecyclerView(rv_players_list)
     }
 
     private fun initListeners() {
@@ -91,19 +94,29 @@ class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog {
     override fun initDialog(dialog: MainDialog) {}
 
     override fun actionButtonPressed(dialog: MainDialog) {
-        val player = Player()
+        val player = getPlayerFrom(dialog)
+        viewModel.addPlayer(player)
+        dialog.tiedName.text?.clear()
+        dialog.tiedName.requestFocus()
+    }
+
+    private fun getPlayerFrom(dialog: MainDialog) : PlayerEntity {
+        val player = PlayerEntity()
         player.name = dialog.tiedName.text.toString()
         val capital = dialog.tiedCapital.text.toString()
         val typeCapital = dialog.typeCapitalSwitcher.getType()
         player.setCapital(capital, typeCapital)
-        viewModel.addPlayer(player)
-        dialog.tiedName.text?.clear()
-        dialog.tiedName.requestFocus()
+        return player
     }
 
     override fun onTextChanged(dialog: MainDialog) {
         val nameFieldWasFilledIn = dialog.tiedName.text!!.isNotEmpty()
         val capitalFieldWasFilledIn = dialog.tiedCapital.text!!.isNotEmpty()
         dialog.btnAction.isEnabled = nameFieldWasFilledIn && capitalFieldWasFilledIn
+    }
+
+    override fun onSwiped(position: Int) {
+        viewModel.deletePlayer(position)
+
     }
 }

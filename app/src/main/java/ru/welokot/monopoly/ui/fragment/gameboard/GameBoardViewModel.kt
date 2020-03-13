@@ -2,20 +2,20 @@ package ru.welokot.monopoly.ui.fragment.gameboard
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.db.entity.PlayerEntity
 import ru.welokot.monopoly.models.TypeCapital
 import javax.inject.Inject
 
 class GameBoardViewModel
     @Inject constructor() : ViewModel() {
 
-    private var playersList: MutableList<Player> = mutableListOf()
+    private var playersList: MutableList<PlayerEntity> = mutableListOf()
     private val transferMoneyTo: MutableSet<Int> = mutableSetOf()
     private val transferMoneyFrom: MutableSet<Int> = mutableSetOf()
 
-    var playersListLiveData: MutableLiveData<MutableList<Player>> = MutableLiveData()
+    var playersListLiveData: MutableLiveData<MutableList<PlayerEntity>> = MutableLiveData()
 
-    fun setPlayersList(players: MutableList<Player>) {
+    fun setPlayersList(players: MutableList<PlayerEntity>) {
         playersList = mutableListOf()
         playersList.addAll(players)
         playersListLiveData.postValue(playersList)

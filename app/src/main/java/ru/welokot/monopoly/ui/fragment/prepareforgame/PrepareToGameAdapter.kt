@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item.view.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.db.entity.PlayerEntity
 
 class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var playersList = mutableListOf<Player>()
+    private var playersList = mutableListOf<PlayerEntity>()
 
-    fun setPlayers(newPlayers: MutableList<Player>) {
+    fun setPlayers(newPlayers: MutableList<PlayerEntity>) {
         playersList = newPlayers
         notifyDataSetChanged()
     }
