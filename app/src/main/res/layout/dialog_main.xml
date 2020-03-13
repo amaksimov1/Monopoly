@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:minWidth="200dp"
+    android:minHeight="200dp"
     android:padding="@dimen/spacing_8">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -12,9 +14,8 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_8"
-        android:layout_marginBottom="@dimen/spacing_8"
-        android:text="М"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnAction"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,12 +23,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiedName"
@@ -36,7 +37,9 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="@string/player_name"
-            android:singleLine="true" />
+            android:inputType="text|textCapSentences"
+            android:singleLine="true"
+            android:textColor="@color/colorOnBackground" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -44,6 +47,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:layout_marginEnd="@dimen/spacing_8"
         app:layout_constraintEnd_toStartOf="@+id/btnCapitalType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilName">
@@ -53,9 +58,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/capital"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:selectAllOnFocus="true"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/colorOnBackground"/>
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -64,21 +71,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_8"
-        android:text="@string/add_player"
+        android:enabled="false"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilCapital"
-        android:enabled="false"/>
+        app:layout_constraintTop_toBottomOf="@+id/tilCapital" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnClose"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_8"
         android:text="@string/close"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAction" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAction"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

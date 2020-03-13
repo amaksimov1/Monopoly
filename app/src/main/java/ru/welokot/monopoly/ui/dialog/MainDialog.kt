@@ -4,37 +4,21 @@ import android.os.Bundle
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_main.*
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.models.TypeCapitalSwitcher
 
-class MainDialog() : DialogFragment() {
 
-    companion object {
-        const val TAG = "main_dialog"
-        const val FRAGMENT_TYPE = "fragment_type"
+class MainDialog : DialogFragment() {
 
-        fun createInstance(fragmentType: String): MainDialog {
-            val bundle = Bundle()
-            bundle.putString(FRAGMENT_TYPE, fragmentType)
-            val fragment =
-                MainDialog()
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
+    val TAG = "main_dialog"
 
-    var fragmentType: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            fragmentType = it.getString(
-                FRAGMENT_TYPE
-            )
-        }
-    }
+    lateinit var  typeCapitalSwitcher: TypeCapitalSwitcher
+    private lateinit var parent: WorkerWithMainDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,40 +30,53 @@ class MainDialog() : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val parent = parentFragment as InitMainDialog
-        parent.initDialog()
+        init()
         initListeners()
+    }
+
+    private fun init() {
+        setTypeCapital()
+
+        parent = parentFragment as WorkerWithMainDialog
+        parent.initDialog(this)
+    }
+
+    private fun setTypeCapital() {
+        typeCapitalSwitcher = TypeCapitalSwitcher()
+        btnCapitalType.text = typeCapitalSwitcher.getType().name
     }
 
     private fun initListeners() {
         tiedName.addTextChangedListener(getTextWatcher())
         tiedCapital.addTextChangedListener(getTextWatcher())
 
+        tiedName.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                dialog!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            }
+        }
+
         btnClose.setOnClickListener {
             dismiss()
         }
 
         btnAction.setOnClickListener {
-            if (btnAction.isEnabled) {
-                val parent = parentFragment as OnDialogActionPressed
-                val name = tiedName.text.toString()
-                val capital = tiedCapital.text.toString()
-                parent.actionPressed(name, capital)
-            }
+            parent.actionButtonPressed(this)
+        }
+
+        btnCapitalType.setOnClickListener {
+            typeCapitalSwitcher.switchType()
+            btnCapitalType.text = typeCapitalSwitcher.getType().name
         }
     }
 
     private fun getTextWatcher() : TextWatcher {
-        val parent = parentFragment as MainDialogTextWatcher.AllFieldsMustBeFilledIn
-        return MainDialogTextWatcher(parent)
+        return MainDialogTextWatcher(parent, this)
     }
+}
 
-    interface OnDialogActionPressed {
-        fun actionPressed(name: String, capital: String)
-    }
-
-    interface InitMainDialog {
-        fun initDialog()
-    }
+interface WorkerWithMainDialog {
+    fun initDialog(dialog: MainDialog)
+    fun actionButtonPressed(dialog: MainDialog)
+    fun onTextChanged(dialog: MainDialog)
 }

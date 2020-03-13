@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_players_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
-        android:backgroundTint="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:fabAlignmentMode="center"/>
+        android:backgroundTint="@color/colorPrimary"
+        android:clipToPadding="false"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        app:fabAlignmentMode="center" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_player"
@@ -40,12 +46,5 @@
         android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_accessibility">
     </ImageButton>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_players_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
-        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

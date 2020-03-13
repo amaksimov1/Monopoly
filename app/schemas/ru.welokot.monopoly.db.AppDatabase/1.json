@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "163cfe41d3119f62e661ef141b2941fb",
+    "identityHash": "38ec9ef6fe60142dcc83e56450ad1dfa",
     "entities": [
       {
         "tableName": "players",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `cash` REAL NOT NULL, `icon` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `capital` INTEGER NOT NULL, `icon` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -22,8 +22,8 @@
           },
           {
             "fieldPath": "capital",
-            "columnName": "cash",
-            "affinity": "REAL",
+            "columnName": "capital",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -46,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '163cfe41d3119f62e661ef141b2941fb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '38ec9ef6fe60142dcc83e56450ad1dfa')"
     ]
   }
 }

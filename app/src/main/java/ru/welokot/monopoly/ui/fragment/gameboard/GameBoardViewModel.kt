@@ -3,6 +3,7 @@ package ru.welokot.monopoly.ui.fragment.gameboard
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.welokot.monopoly.db.Player
+import ru.welokot.monopoly.models.TypeCapital
 import javax.inject.Inject
 
 class GameBoardViewModel
@@ -44,16 +45,16 @@ class GameBoardViewModel
         }
     }
 
-    fun commitTransfer(transferAmount: Float) {
+    fun commitTransfer(transferAmount: String, typeCapital: TypeCapital) {
         transferMoneyTo.forEach {
             for (i in 0 until transferMoneyFrom.size) {
-                playersList[it].capital += transferAmount
+                playersList[it].plusCapital(transferAmount, typeCapital)
             }
         }
 
         transferMoneyFrom.forEach {
             for (i in 0 until transferMoneyTo.size) {
-                playersList[it].capital -= transferAmount
+                playersList[it].minusCapital(transferAmount, typeCapital)
             }
         }
 

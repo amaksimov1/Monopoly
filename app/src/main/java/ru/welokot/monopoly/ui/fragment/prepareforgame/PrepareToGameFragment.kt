@@ -1,38 +1,30 @@
 package ru.welokot.monopoly.ui.fragment.prepareforgame
 
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.dialog_main.*
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.Player
-import ru.welokot.monopoly.ui.Router
-import ru.welokot.monopoly.utils.ViewAnimation
+import ru.welokot.monopoly.ui.dialog.MainDialog
+import ru.welokot.monopoly.ui.dialog.WorkerWithMainDialog
 import javax.inject.Inject
-import kotlin.random.Random
 
 
-class PrepareToGameFragment : DaggerFragment() {
+class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog {
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: PrepareToGameViewModel
     private lateinit var adapter: PrepareToGameAdapter
-
-    private var rotate = false
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -66,6 +58,11 @@ class PrepareToGameFragment : DaggerFragment() {
         btn_load_previous_games.setOnClickListener {
             Toast.makeText(context, "Экран загрузки предыдущих игр", Toast.LENGTH_SHORT).show()
         }
+
+        fab_add_player.setOnClickListener {
+            val mainDialog = MainDialog()
+            mainDialog.show(childFragmentManager, mainDialog.TAG)
+        }
     }
 
     private fun initAdapters() {
@@ -85,8 +82,28 @@ class PrepareToGameFragment : DaggerFragment() {
     }
 
     private fun initObservers() {
-
+        viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.setPlayers(it)
+            btn_start_game.isEnabled = it.size >=2
+        })
     }
 
+    override fun initDialog(dialog: MainDialog) {}
 
+    override fun actionButtonPressed(dialog: MainDialog) {
+        val player = Player()
+        player.name = dialog.tiedName.text.toString()
+        val capital = dialog.tiedCapital.text.toString()
+        val typeCapital = dialog.typeCapitalSwitcher.getType()
+        player.setCapital(capital, typeCapital)
+        viewModel.addPlayer(player)
+        dialog.tiedName.text?.clear()
+        dialog.tiedName.requestFocus()
+    }
+
+    override fun onTextChanged(dialog: MainDialog) {
+        val nameFieldWasFilledIn = dialog.tiedName.text!!.isNotEmpty()
+        val capitalFieldWasFilledIn = dialog.tiedCapital.text!!.isNotEmpty()
+        dialog.btnAction.isEnabled = nameFieldWasFilledIn && capitalFieldWasFilledIn
+    }
 }
