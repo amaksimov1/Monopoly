@@ -38,13 +38,12 @@
 
     <ImageButton
         android:id="@+id/btn_load_previous_games"
-        android:tooltipText="@string/previous_games"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@+id/bottom_app_bar"
-        app:layout_anchorGravity="end|center"
         android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_accessibility">
-    </ImageButton>
+        android:src="@drawable/ic_save_24dp"
+        android:tooltipText="@string/previous_games"
+        app:layout_anchor="@+id/bottom_app_bar"
+        app:layout_anchorGravity="end|center"></ImageButton>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

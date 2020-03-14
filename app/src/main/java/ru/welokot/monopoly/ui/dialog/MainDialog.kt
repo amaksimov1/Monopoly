@@ -1,24 +1,28 @@
 package ru.welokot.monopoly.ui.dialog
 
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_main.*
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.models.TypeCapital
 import ru.welokot.monopoly.models.TypeCapitalSwitcher
 
 
-class MainDialog : DialogFragment() {
+class MainDialog(
+    val worker: WorkerWithMainDialog
+) : DialogFragment() {
 
     val TAG = "main_dialog"
 
     lateinit var  typeCapitalSwitcher: TypeCapitalSwitcher
-    private lateinit var parent: WorkerWithMainDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +40,7 @@ class MainDialog : DialogFragment() {
 
     private fun init() {
         setTypeCapital()
-
-        parent = parentFragment as WorkerWithMainDialog
-        parent.initDialog(this)
+        worker.initDialog(this)
     }
 
     private fun setTypeCapital() {
@@ -61,7 +63,7 @@ class MainDialog : DialogFragment() {
         }
 
         btnAction.setOnClickListener {
-            parent.actionButtonPressed(this)
+            worker.actionButtonPressed(this)
         }
 
         btnCapitalType.setOnClickListener {
@@ -71,7 +73,7 @@ class MainDialog : DialogFragment() {
     }
 
     private fun getTextWatcher() : TextWatcher {
-        return MainDialogTextWatcher(parent, this)
+        return MainDialogTextWatcher(worker, this)
     }
 }
 

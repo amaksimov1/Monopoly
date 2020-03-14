@@ -4,10 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity
+@Entity(tableName = "gameSession")
 class GameSessionEntity (
-    @PrimaryKey
-    val data : Long,
-    val playersList: List<PlayerEntity>,
-    val gameMovesList: List<GameMoveEntity>
+    @PrimaryKey (autoGenerate = true)
+    val id: Int = 0,
+    val lastRun: Long = 0,
+    val playersList: List<PlayerEntity> = mutableListOf(),
+    val gameMovesList: List<GameMoveEntity> = mutableListOf()
 ) : Serializable

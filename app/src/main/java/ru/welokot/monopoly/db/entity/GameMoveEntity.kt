@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity
+@Entity(tableName = "gameMove")
 class GameMoveEntity (
-    @PrimaryKey
-    val gameMoveNumber: Int = 0,
+    @PrimaryKey (autoGenerate = true)
+    val id: Int = 0,
     val transferMoneyTo: MutableSet<Int> = mutableSetOf(),
     val transferMoneyFrom: MutableSet<Int> = mutableSetOf(),
     val transferAmount: String = "0",

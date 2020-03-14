@@ -10,17 +10,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.dialog_main.*
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.PlayerEntity
 import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
-import ru.welokot.monopoly.ui.dialog.WorkerWithMainDialog
 import javax.inject.Inject
 
 
-class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog, OnSwipedListener {
+class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
@@ -50,7 +48,7 @@ class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog, OnSwipedLi
 
     private fun initClicks() {
         btn_start_game.setOnClickListener {
-            //viewModel.addNewGameSession
+            viewModel.addNewGameSession()
             Router.showGameBoardFragment(childFragmentManager, viewModel.getPlayersList())
         }
 
@@ -59,7 +57,8 @@ class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog, OnSwipedLi
         }
 
         fab_add_player.setOnClickListener {
-            val mainDialog = MainDialog()
+            val addingPlayer = AddingPlayer(this, context!!)
+            val mainDialog = MainDialog(addingPlayer)
             mainDialog.show(childFragmentManager, mainDialog.TAG)
         }
     }
@@ -91,32 +90,11 @@ class PrepareToGameFragment : DaggerFragment(), WorkerWithMainDialog, OnSwipedLi
         })
     }
 
-    override fun initDialog(dialog: MainDialog) {}
-
-    override fun actionButtonPressed(dialog: MainDialog) {
-        val player = getPlayerFrom(dialog)
-        viewModel.addPlayer(player)
-        dialog.tiedName.text?.clear()
-        dialog.tiedName.requestFocus()
-    }
-
-    private fun getPlayerFrom(dialog: MainDialog) : PlayerEntity {
-        val player = PlayerEntity()
-        player.name = dialog.tiedName.text.toString()
-        val capital = dialog.tiedCapital.text.toString()
-        val typeCapital = dialog.typeCapitalSwitcher.getType()
-        player.setCapital(capital, typeCapital)
-        return player
-    }
-
-    override fun onTextChanged(dialog: MainDialog) {
-        val nameFieldWasFilledIn = dialog.tiedName.text!!.isNotEmpty()
-        val capitalFieldWasFilledIn = dialog.tiedCapital.text!!.isNotEmpty()
-        dialog.btnAction.isEnabled = nameFieldWasFilledIn && capitalFieldWasFilledIn
-    }
-
     override fun onSwiped(position: Int) {
         viewModel.deletePlayer(position)
+    }
 
+    override fun addPlayer(newPlayer: PlayerEntity) {
+        viewModel.addPlayer(newPlayer)
     }
 }

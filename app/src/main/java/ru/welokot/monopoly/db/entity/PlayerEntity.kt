@@ -7,8 +7,6 @@ import java.io.Serializable
 @Entity(tableName = "players")
 data class PlayerEntity(
 
-    //TODO (Добавление уникальных id)
-
     @PrimaryKey
     var id: Int = 0,
     var name: String = "name",
@@ -22,8 +20,9 @@ data class PlayerEntity(
         str += capital / 1000
         str += " - "
         str += when {
-            capital < 10 -> "00$capital"
-            capital < 100 -> "0$capital"
+            (capital % 1000) == 0 -> "000"
+            (capital % 1000) < 10 -> "00${capital % 1000}"
+            (capital % 1000) < 100 -> "0${capital % 1000}"
             else -> capital % 1000
         }
         return str
@@ -31,8 +30,8 @@ data class PlayerEntity(
 
     fun setCapital(capital: String, typeCapital: TypeCapital) {
         this.capital = when (typeCapital) {
-            TypeCapital.K -> capital.toIntOrNull() ?: 0
-            else -> (capital.toIntOrNull() ?: 0) * 1000
+            TypeCapital.K -> ((capital.toFloatOrNull() ?: 0.0) as Float).toInt()
+            else -> ((capital.toFloatOrNull() ?: 0.0) as Float * 1000).toInt()
         }
     }
 
