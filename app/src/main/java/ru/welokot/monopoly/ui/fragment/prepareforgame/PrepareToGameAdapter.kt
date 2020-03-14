@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item.view.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 
 class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

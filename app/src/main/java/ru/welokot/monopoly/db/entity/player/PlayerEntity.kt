@@ -1,18 +1,14 @@
-package ru.welokot.monopoly.db.entity
+package ru.welokot.monopoly.db.entity.player
 
 import androidx.room.*
 import ru.welokot.monopoly.models.TypeCapital
 import java.io.Serializable
 
-@Entity(tableName = "players")
 data class PlayerEntity(
-
-    @PrimaryKey
     var id: Int = 0,
     var name: String = "name",
     private var capital: Int = 0,
     var icon: Int = 0
-
 ): Serializable {
 
     fun getFormattedCapital() : String {

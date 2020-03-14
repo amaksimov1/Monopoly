@@ -2,71 +2,52 @@ package ru.welokot.monopoly.ui.fragment.gameboard
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.db.AppDatabase
+import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
+import ru.welokot.monopoly.db.entity.gameMove.TypeTransaction
+import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.models.TypeCapital
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GameBoardViewModel
-    @Inject constructor() : ViewModel() {
+    @Inject constructor(
+        val appDatabase: AppDatabase
+    ) : ViewModel() {
 
-    private var playersList: MutableList<PlayerEntity> = mutableListOf()
+    private lateinit var gameSession: GameSessionEntity
+    private lateinit var gameMove: GameMoveEntity
+
+
     private val transferMoneyTo: MutableSet<Int> = mutableSetOf()
     private val transferMoneyFrom: MutableSet<Int> = mutableSetOf()
 
-    var playersListLiveData: MutableLiveData<MutableList<PlayerEntity>> = MutableLiveData()
+    var playersListLiveData: MutableLiveData<List<PlayerEntity>> = MutableLiveData()
 
-    fun setPlayersList(players: MutableList<PlayerEntity>) {
-        playersList = mutableListOf()
-        playersList.addAll(players)
-        playersListLiveData.postValue(playersList)
+    fun setGameSession(gameSession: GameSessionEntity) {
+        this.gameSession = gameSession
+        gameMove = gameSession.getNewMove()
+        playersListLiveData.postValue(gameSession.playersList)
     }
 
-    fun addTransaction(position: Int, type: TypeTransaction) {
-        when (type) {
-            TypeTransaction.TO -> {
-                transferMoneyTo.add(position)
-            }
-            TypeTransaction.FROM -> {
-                transferMoneyFrom.add(position)
-            }
-        }
+    fun addTransaction(id: Int, type: TypeTransaction) {
+        gameMove.addTransaction(id, type)
     }
 
-    fun deleteTransaction(position: Int) {
-        transferMoneyTo.remove(position)
-        transferMoneyFrom.remove(position)
+    fun deleteTransaction(id: Int) {
+        gameMove.deleteTransaction(id)
     }
 
-    fun getTypeTransaction(position: Int): TypeTransaction {
-        return when (position) {
-            in transferMoneyTo -> TypeTransaction.TO
-            in transferMoneyFrom -> TypeTransaction.FROM
-            else -> TypeTransaction.NOTHING
-        }
+    fun getTypeTransaction(id: Int): TypeTransaction {
+        return gameMove.getTypeTransaction(id)
     }
 
-    fun commitTransfer(transferAmount: String, typeCapital: TypeCapital) {
-        transferMoneyTo.forEach {
-            for (i in 0 until transferMoneyFrom.size) {
-                playersList[it].plusCapital(transferAmount, typeCapital)
-            }
-        }
-
-        transferMoneyFrom.forEach {
-            for (i in 0 until transferMoneyTo.size) {
-                playersList[it].minusCapital(transferAmount, typeCapital)
-            }
-        }
-
-        transferMoneyTo.clear()
-        transferMoneyFrom.clear()
-
-        playersListLiveData.postValue(playersList)
+    fun commitTransaction(transactionAmount: String, typeCapital: TypeCapital) {
+        gameSession.saveGameMove(gameMove, transactionAmount, typeCapital)
+        appDatabase.gameSessionDao().update(gameSession)
+        gameMove = gameSession.getNewMove()
+        playersListLiveData.postValue(gameSession.playersList)
     }
-}
-
-enum class TypeTransaction {
-    TO,
-    FROM,
-    NOTHING
 }

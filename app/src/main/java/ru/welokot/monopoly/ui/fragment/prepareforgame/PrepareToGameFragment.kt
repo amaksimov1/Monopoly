@@ -12,7 +12,7 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import javax.inject.Inject
@@ -49,7 +49,6 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
     private fun initClicks() {
         btn_start_game.setOnClickListener {
             viewModel.addNewGameSession()
-            Router.showGameBoardFragment(childFragmentManager, viewModel.getPlayersList())
         }
 
         btn_load_previous_games.setOnClickListener {
@@ -87,6 +86,10 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
         viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer {
             adapter.setPlayers(it)
             btn_start_game.isEnabled = it.size >=2
+        })
+
+        viewModel.gameSessionLiveData.observe(viewLifecycleOwner, Observer {
+            Router.showGameBoardFragment(childFragmentManager, it)
         })
     }
 

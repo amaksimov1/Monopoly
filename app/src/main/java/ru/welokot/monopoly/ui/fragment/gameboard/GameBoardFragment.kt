@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import java.io.Serializable
 import javax.inject.Inject
 
@@ -23,10 +24,10 @@ class GameBoardFragment: DaggerFragment() {
 
     companion object {
         private const val CODE_KEY = "GameBoardFragment"
-        fun newInstance(players: MutableList<PlayerEntity>): GameBoardFragment {
+        fun newInstance(gameSession: GameSessionEntity): GameBoardFragment {
             val fragment = GameBoardFragment()
             val bundle = Bundle()
-            bundle.putSerializable(CODE_KEY, players as Serializable)
+            bundle.putSerializable(CODE_KEY, gameSession)
             fragment.arguments = bundle
             return fragment
         }
@@ -57,7 +58,7 @@ class GameBoardFragment: DaggerFragment() {
         initRecyclerView()
         initObservers()
 
-        viewModel.setPlayersList(arguments!!.getSerializable(CODE_KEY) as MutableList<PlayerEntity>)
+        viewModel.setGameSession(arguments!!.getSerializable(CODE_KEY) as GameSessionEntity)
     }
 
     private fun initListeners() {
@@ -89,17 +90,6 @@ class GameBoardFragment: DaggerFragment() {
         //dialog.setContentView(R.layout.dialog_start_transfer_money)
         dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
-
-//        dialog.findViewById<AppCompatButton>(R.id.btnCommitTransfer).setOnClickListener {
-//            val capital = dialog.findViewById<TextInputEditText>(R.id.tiedCapital).text!!
-//            if (capital.isNotEmpty()) {
-//                viewModel.commitTransfer(capital.toString().toFloat())
-//                dialog.dismiss()
-//            } else {
-//                dialog.findViewById<TextInputEditText>(R.id.tiedCapital).error = "Введите капитал"
-//            }
-//        }
-
         dialog.findViewById<AppCompatButton>(R.id.btnClose).setOnClickListener {
             dialog.dismiss()
         }

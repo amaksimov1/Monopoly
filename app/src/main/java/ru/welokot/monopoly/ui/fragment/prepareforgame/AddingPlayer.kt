@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import kotlinx.android.synthetic.main.dialog_main.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import ru.welokot.monopoly.ui.dialog.WorkerWithMainDialog
 import kotlin.random.Random

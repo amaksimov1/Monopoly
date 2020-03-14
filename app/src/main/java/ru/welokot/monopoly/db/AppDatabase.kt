@@ -3,15 +3,13 @@ package ru.welokot.monopoly.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import ru.welokot.monopoly.db.dao.GameSessionDao
-import ru.welokot.monopoly.db.entity.GameMoveEntity
-import ru.welokot.monopoly.db.entity.GameSessionEntity
-import ru.welokot.monopoly.db.entity.PlayerEntity
+import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
+import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 
 @Database (
     entities = [
-        GameSessionEntity::class,
-        GameMoveEntity::class,
-        PlayerEntity::class
+        GameSessionEntity::class
     ],
     version = 2
 )
