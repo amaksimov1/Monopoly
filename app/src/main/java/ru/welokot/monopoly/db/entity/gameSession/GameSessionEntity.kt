@@ -1,6 +1,7 @@
 package ru.welokot.monopoly.db.entity.gameSession
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
@@ -18,24 +19,51 @@ class GameSessionEntity (
     val gameMovesList: MutableList<GameMoveEntity> = mutableListOf()
 ) : Serializable {
 
-    fun getNewMove(): GameMoveEntity {
-        val newMove = GameMoveEntity()
-        newMove.id = gameMovesList.size
-        return newMove
+    @Ignore
+    private var currentGameMove: GameMoveEntity? = null
+
+    fun getCurrentGameMove(): GameMoveEntity {
+        if (currentGameMove == null) {
+            currentGameMove = GameMoveEntity()
+            currentGameMove!!.id = gameMovesList.size
+        }
+        return currentGameMove!!
     }
 
-    fun saveGameMove(gameMove: GameMoveEntity, transactionAmount: String, typeCapital: TypeCapital) {
-        gameMove.transferMoneyTo.forEach {
-            for (i in 0 until gameMove.transferMoneyFrom.size) {
-                playersList[it].plusCapital(transactionAmount, typeCapital)
+    fun applyCurrentGameMove(transactionAmount: String, typeCapital: TypeCapital) {
+        currentGameMove?.let {
+            it.transferMoneyTo.forEach {id ->
+                addCapitalToPlayerWithId(id, transactionAmount, typeCapital)
             }
+
+            it.transferMoneyFrom.forEach {id ->
+                takeAwayCapitalFromPlayerWithId(id, transactionAmount, typeCapital)
+            }
+            gameMovesList.add(it)
         }
 
-        gameMove.transferMoneyFrom.forEach {
-            for (i in 0 until gameMove.transferMoneyTo.size) {
-                playersList[it].minusCapital(transactionAmount, typeCapital)
+        currentGameMove = null
+    }
+
+    private fun addCapitalToPlayerWithId(id: Int, transactionAmount: String, typeCapital: TypeCapital) {
+        playersList.forEach {
+            if (it.id == id) {
+                val multiplier = currentGameMove!!.transferMoneyFrom.size
+                for (i in 0 until multiplier) {
+                    it.plusCapital(transactionAmount, typeCapital)
+                }
             }
         }
-        gameMovesList.add(gameMove)
+    }
+
+    private fun takeAwayCapitalFromPlayerWithId(id: Int, transactionAmount: String, typeCapital: TypeCapital) {
+        playersList.forEach {
+            if (it.id == id) {
+                val multiplier = currentGameMove!!.transferMoneyTo.size
+                for (i in 0 until multiplier) {
+                    it.minusCapital(transactionAmount, typeCapital)
+                }
+            }
+        }
     }
 }

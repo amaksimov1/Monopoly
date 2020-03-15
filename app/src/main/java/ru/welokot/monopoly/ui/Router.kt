@@ -17,7 +17,7 @@ object Router {
                 GameBoardFragment.newInstance(gameSession),
                 GameBoardFragment::class.java.simpleName
             )
-            .commit()
+            .commitNow()
     }
 
     fun showPrepareToGameFragment(supportFragmentManager: FragmentManager) {

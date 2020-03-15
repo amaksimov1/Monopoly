@@ -1,11 +1,13 @@
 package ru.welokot.monopoly.ui.fragment.prepareforgame
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.AppDatabase
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
@@ -22,10 +24,15 @@ class PrepareToGameViewModel @Inject constructor(
         get() = Dispatchers.IO + job
 
     private val playersList: MutableList<PlayerEntity> = mutableListOf()
-    private var playersId: Int = 0
+    private var playersId: Int = 1
 
     var playersListLiveData: MutableLiveData<MutableList<PlayerEntity>> = MutableLiveData()
     var gameSessionLiveData: MutableLiveData<GameSessionEntity> = MutableLiveData()
+
+    fun addBank() {
+        playersList.add(PlayerEntity(0, "Банк", 10000, 0, true))
+        playersListLiveData.postValue(playersList)
+    }
 
     fun addPlayer(newPlayer: PlayerEntity) {
         newPlayer.id = playersId++
@@ -34,7 +41,7 @@ class PrepareToGameViewModel @Inject constructor(
     }
 
     fun deletePlayer(position: Int){
-        playersList.removeAt(position)
+        if (position != 0) playersList.removeAt(position)
         playersListLiveData.postValue(playersList)
     }
 

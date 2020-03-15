@@ -9,20 +9,21 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item.view.*
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
 import ru.welokot.monopoly.db.entity.gameMove.TypeTransaction
+import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
 
 class GameBoardAdapter(
-
-    private val viewModel: GameBoardViewModel,
-    private val context: Context
+    private val context: Context,
+    private val onItemClickListener: OnItemClickListener
 
 ) : RecyclerView.Adapter<GameBoardAdapter.Holder>() {
 
-    private var playersList = listOf<PlayerEntity>()
+    private var gameSession = GameSessionEntity()
 
-    fun updatePlayersList(newPlayers: List<PlayerEntity>) {
-        playersList = newPlayers
+    fun updatePlayersList(gameSession: GameSessionEntity) {
+        this.gameSession = gameSession
         notifyDataSetChanged()
     }
 
@@ -31,12 +32,15 @@ class GameBoardAdapter(
         return Holder(view)
     }
 
-    override fun getItemCount() = playersList.size
+    override fun getItemCount() = gameSession.playersList.size
 
     @SuppressLint("Recycle", "ResourceAsColor")
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        when (viewModel.getTypeTransaction(position)) {
+        val player = gameSession.playersList[position]
+        val currentGameMove = gameSession.getCurrentGameMove()
+
+        when (currentGameMove.getTypeTransaction(player.id)) {
             TypeTransaction.TO -> setGreenIcon(holder)
             TypeTransaction.FROM -> setRedIcon(holder)
             else -> setGreyIcon(holder)
@@ -45,33 +49,17 @@ class GameBoardAdapter(
         holder.setIsRecyclable(false)
 
         holder.itemView.apply {
-            tvName.text = playersList[position].name
-            tvCapital.text = playersList[position].getFormattedCapital()
+            tvName.text = player.name
+            tvCapital.text = player.getFormattedCapital()
             ivImage.setImageDrawable(
                 context.resources.obtainTypedArray(R.array.player_icon).getDrawable(
-                    playersList[position].icon
+                    player.icon
                 )
             )
         }
 
         holder.itemView.setOnClickListener {
-            when (viewModel.getTypeTransaction(position)) {
-                TypeTransaction.NOTHING -> {
-                    setRedIcon(holder)
-                    viewModel.addTransaction(position, TypeTransaction.FROM)
-                }
-
-                TypeTransaction.FROM -> {
-                    setGreenIcon(holder)
-                    viewModel.deleteTransaction(position)
-                    viewModel.addTransaction(position, TypeTransaction.TO)
-                }
-
-                TypeTransaction.TO -> {
-                    setGreyIcon(holder)
-                    viewModel.deleteTransaction(position)
-                }
-            }
+            onItemClickListener.changeTypeTransaction(gameSession, player.id)
         }
     }
 
@@ -81,13 +69,18 @@ class GameBoardAdapter(
     }
 
     private fun setRedIcon(holder: RecyclerView.ViewHolder) {
-        //holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_call_made_red_24dp))
+        holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_call_made_24dp))
         holder.itemView.ivAction.setColorFilter(ContextCompat.getColor(context, R.color.red_A700))
     }
+
     private fun setGreyIcon(holder: RecyclerView.ViewHolder) {
         holder.itemView.ivAction.setImageDrawable(context.getDrawable(R.drawable.ic_fingerprint_black_24dp))
         holder.itemView.ivAction.setColorFilter(ContextCompat.getColor(context, R.color.grey_700))
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView)
+}
+
+interface OnItemClickListener {
+    fun changeTypeTransaction(gameSession: GameSessionEntity, playerId: Int)
 }

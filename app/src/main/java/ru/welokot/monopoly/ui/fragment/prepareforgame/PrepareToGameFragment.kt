@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import javax.inject.Inject
-
 
 class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
 
@@ -36,29 +36,41 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
         return inflater.inflate(R.layout.prepare_to_game_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        initClicks()
+        setTitle(view)
+
+        initClicks(view)
         initAdapters()
-        initRecyclerView()
+        initRecyclerView(view)
         initListeners()
-        initObservers()
+        initObservers(view)
+
+        viewModel.addBank()
     }
 
-    private fun initClicks() {
-        btn_start_game.setOnClickListener {
-            viewModel.addNewGameSession()
+    private fun setTitle(view: View) {
+        with(view) {
+            tvTitle.text = context.getString(R.string.adding_players)
         }
+    }
 
-        btn_load_previous_games.setOnClickListener {
-            Toast.makeText(context, "Экран загрузки предыдущих игр", Toast.LENGTH_SHORT).show()
-        }
+    private fun initClicks(view: View) {
+        with(view) {
+            btn_start_game.setOnClickListener {
+                viewModel.addNewGameSession()
+            }
 
-        fab_add_player.setOnClickListener {
-            val addingPlayer = AddingPlayer(this, context!!)
-            val mainDialog = MainDialog(addingPlayer)
-            mainDialog.show(childFragmentManager, mainDialog.TAG)
+            btn_load_previous_games.setOnClickListener {
+                Toast.makeText(context, "Экран загрузки предыдущих игр", Toast.LENGTH_SHORT).show()
+            }
+
+            fab_add_player.setOnClickListener {
+                val addingPlayer = AddingPlayer(this@PrepareToGameFragment, context!!)
+                val mainDialog = MainDialog(addingPlayer)
+                mainDialog.show(childFragmentManager, mainDialog.TAG)
+            }
         }
     }
 
@@ -66,14 +78,16 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
         adapter = PrepareToGameAdapter(context!!)
     }
 
-    private fun initRecyclerView() {
-        rv_players_list.layoutManager = LinearLayoutManager(context)
-        rv_players_list.adapter = this.adapter
-        rv_players_list.isNestedScrollingEnabled = true
+    private fun initRecyclerView(view: View) {
+        with(view) {
+            rv_players_list.layoutManager = LinearLayoutManager(context)
+            rv_players_list.adapter = this@PrepareToGameFragment.adapter
+            rv_players_list.isNestedScrollingEnabled = false
 
-        val deleteCallback = DeleteCallback(this)
-        val helper = ItemTouchHelper(deleteCallback)
-        helper.attachToRecyclerView(rv_players_list)
+            val deleteCallback = DeleteCallback(this@PrepareToGameFragment)
+            val helper = ItemTouchHelper(deleteCallback)
+            helper.attachToRecyclerView(rv_players_list)
+        }
     }
 
     private fun initListeners() {
@@ -82,15 +96,17 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
         })
     }
 
-    private fun initObservers() {
-        viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer {
-            adapter.setPlayers(it)
-            btn_start_game.isEnabled = it.size >=2
-        })
+    private fun initObservers(view: View) {
+        with(view) {
+            viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer {
+                adapter.setPlayers(it)
+                btn_start_game.isEnabled = it.size >=3
+            })
 
-        viewModel.gameSessionLiveData.observe(viewLifecycleOwner, Observer {
-            Router.showGameBoardFragment(childFragmentManager, it)
-        })
+            viewModel.gameSessionLiveData.observe(viewLifecycleOwner, Observer {
+                Router.showGameBoardFragment(activity!!.supportFragmentManager, it)
+            })
+        }
     }
 
     override fun onSwiped(position: Int) {

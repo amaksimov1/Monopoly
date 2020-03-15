@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_players_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/actionBarSize"
+        android:layout_marginBottom="@dimen/actionBarSize"
+        android:overScrollMode="never"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/actionBarSize"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/colorPrimary"
         android:clipToPadding="false"
@@ -42,8 +52,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_save_24dp"
-        android:tooltipText="@string/previous_games"
         app:layout_anchor="@+id/bottom_app_bar"
-        app:layout_anchorGravity="end|center"></ImageButton>
+        app:layout_anchorGravity="end|center"
+        android:contentDescription="@string/previous_games" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

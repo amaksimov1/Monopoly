@@ -1,26 +1,24 @@
 package ru.welokot.monopoly.ui.fragment.gameboard
 
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import androidx.appcompat.widget.AppCompatButton
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
+import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
+import ru.welokot.monopoly.db.entity.gameMove.TypeTransaction
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
-import ru.welokot.monopoly.db.entity.player.PlayerEntity
-import java.io.Serializable
+import ru.welokot.monopoly.models.TypeCapital
+import ru.welokot.monopoly.ui.dialog.MainDialog
 import javax.inject.Inject
 
-class GameBoardFragment: DaggerFragment() {
+class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnItemClickListener {
 
     companion object {
         private const val CODE_KEY = "GameBoardFragment"
@@ -39,61 +37,64 @@ class GameBoardFragment: DaggerFragment() {
     private lateinit var viewModel: GameBoardViewModel
     private lateinit var adapter: GameBoardAdapter
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         viewModel = ViewModelProvider(this, providerFactory).get(GameBoardViewModel::class.java)
-
         return inflater.inflate(R.layout.game_board_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        initListeners()
-        initAdapters()
-        initRecyclerView()
-        initObservers()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel.setGameSession(arguments!!.getSerializable(CODE_KEY) as GameSessionEntity)
+
+        setTitle(view)
+        initListeners()
+        initAdapters()
+        initRecyclerView(view)
+        initObservers()
+    }
+
+    private fun setTitle(view: View) {
+        with(view) {
+            tvTitle.text = context.getString(R.string.transfer_money)
+        }
     }
 
     private fun initListeners() {
-        fabMoneyTransfer.setOnClickListener {
-            showDialogCommitTransfer()
+        fab_money_transfer.setOnClickListener {
+            val addingPlayer = CommitTransaction(this@GameBoardFragment)
+            val mainDialog = MainDialog(addingPlayer)
+            mainDialog.show(childFragmentManager, mainDialog.TAG)
         }
     }
 
     private fun initAdapters() {
-        val gameBoardAdapter = GameBoardAdapter(viewModel, context!!)
+        val gameBoardAdapter = GameBoardAdapter(context!!, this)
         adapter = gameBoardAdapter
     }
 
-    private fun initRecyclerView() {
-        rvPlayersList.layoutManager = LinearLayoutManager(context)
-        rvPlayersList.setHasFixedSize(true)
-        rvPlayersList.adapter = adapter
+    private fun initRecyclerView(view: View) {
+        with(view) {
+            rv_players_list.layoutManager = LinearLayoutManager(context)
+            rv_players_list.setHasFixedSize(true)
+            rv_players_list.adapter = adapter
+        }
     }
 
     private fun initObservers() {
-        viewModel.playersListLiveData.observe(this as LifecycleOwner, Observer {
+        viewModel.gameSessionLiveData.observe(viewLifecycleOwner, Observer {
             adapter.updatePlayersList(it)
         })
     }
 
-    @SuppressLint("Recycle")
-    private fun showDialogCommitTransfer() {
-        val dialog = Dialog(context!!)
-        //dialog.setContentView(R.layout.dialog_start_transfer_money)
-        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        dialog.window!!.attributes.windowAnimations = R.style.Animation_Design_BottomSheetDialog
-        dialog.findViewById<AppCompatButton>(R.id.btnClose).setOnClickListener {
-            dialog.dismiss()
-        }
+    override fun commitTransaction(transactionAmount: String, typeCapital: TypeCapital) {
+        viewModel.commitTransaction(transactionAmount, typeCapital)
+    }
 
-        dialog.show()
+    override fun changeTypeTransaction(gameSession: GameSessionEntity, playerId: Int) {
+        viewModel.changeTypeTransaction(gameSession, playerId)
     }
 }

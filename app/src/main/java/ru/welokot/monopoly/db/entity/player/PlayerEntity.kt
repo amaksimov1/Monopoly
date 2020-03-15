@@ -1,6 +1,5 @@
 package ru.welokot.monopoly.db.entity.player
 
-import androidx.room.*
 import ru.welokot.monopoly.models.TypeCapital
 import java.io.Serializable
 
@@ -8,18 +7,26 @@ data class PlayerEntity(
     var id: Int = 0,
     var name: String = "name",
     private var capital: Int = 0,
-    var icon: Int = 0
+    var icon: Int = 0,
+    var isBank: Boolean = false
 ): Serializable {
 
     fun getFormattedCapital() : String {
-        var str = "$ "
-        str += capital / 1000
-        str += " - "
-        str += when {
-            (capital % 1000) == 0 -> "000"
-            (capital % 1000) < 10 -> "00${capital % 1000}"
-            (capital % 1000) < 100 -> "0${capital % 1000}"
-            else -> capital % 1000
+        var str = ""
+        when {
+            isBank -> str = "∞"
+            (capital <= 0) -> str = "Банкрот"
+            else -> {
+                str = "$ "
+                str += capital / 1000
+                str += " - "
+                str += when {
+                    (capital % 1000) == 0 -> "000"
+                    (capital % 1000) < 10 -> "00${capital % 1000}"
+                    (capital % 1000) < 100 -> "0${capital % 1000}"
+                    else -> capital % 1000
+                }
+            }
         }
         return str
     }
@@ -46,4 +53,6 @@ data class PlayerEntity(
     }
 
     fun getCapital() = capital
+
+    fun changeIcon() {  }
 }

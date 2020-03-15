@@ -15,14 +15,19 @@ import ru.welokot.monopoly.R
 import ru.welokot.monopoly.models.TypeCapital
 import ru.welokot.monopoly.models.TypeCapitalSwitcher
 
-
 class MainDialog(
-    val worker: WorkerWithMainDialog
+    private val worker: WorkerWithMainDialog
 ) : DialogFragment() {
 
     val TAG = "main_dialog"
 
     lateinit var  typeCapitalSwitcher: TypeCapitalSwitcher
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.attributes?.windowAnimations = R.style.Animation_Design_BottomSheetDialog
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,12 +56,6 @@ class MainDialog(
     private fun initListeners() {
         tiedName.addTextChangedListener(getTextWatcher())
         tiedCapital.addTextChangedListener(getTextWatcher())
-
-        tiedName.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                dialog!!.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-            }
-        }
 
         btnClose.setOnClickListener {
             dismiss()
