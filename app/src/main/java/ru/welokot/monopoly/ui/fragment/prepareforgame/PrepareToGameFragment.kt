@@ -44,7 +44,6 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
         initClicks(view)
         initAdapters()
         initRecyclerView(view)
-        initListeners()
         initObservers(view)
 
         viewModel.addBank()
@@ -63,7 +62,7 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
             }
 
             btn_load_previous_games.setOnClickListener {
-                Toast.makeText(context, "Экран загрузки предыдущих игр", Toast.LENGTH_SHORT).show()
+                Router.showPreviousGamesFragment(activity!!.supportFragmentManager)
             }
 
             fab_add_player.setOnClickListener {
@@ -88,12 +87,6 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
             val helper = ItemTouchHelper(deleteCallback)
             helper.attachToRecyclerView(rv_players_list)
         }
-    }
-
-    private fun initListeners() {
-        viewModel.playersListLiveData.observe(viewLifecycleOwner, Observer{
-            adapter.setPlayers(it)
-        })
     }
 
     private fun initObservers(view: View) {

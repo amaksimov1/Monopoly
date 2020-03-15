@@ -2,7 +2,7 @@ package ru.welokot.monopoly.ui.fragment.gameboard
 
 import android.content.Context
 import android.view.View
-import kotlinx.android.synthetic.main.dialog_main.*
+import kotlinx.android.synthetic.main.main_dialog.*
 import ru.welokot.monopoly.models.TypeCapital
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import ru.welokot.monopoly.ui.dialog.WorkerWithMainDialog

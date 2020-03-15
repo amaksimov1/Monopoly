@@ -8,6 +8,7 @@ import ru.welokot.monopoly.di.ViewModelKey
 import ru.welokot.monopoly.ui.activity.MainActivityViewModel
 import ru.welokot.monopoly.ui.fragment.gameboard.GameBoardViewModel
 import ru.welokot.monopoly.ui.fragment.prepareforgame.PrepareToGameViewModel
+import ru.welokot.monopoly.ui.fragment.previousgames.PreviousGamesViewModel
 
 @Module
 abstract class MainViewModelsModule {
@@ -26,4 +27,9 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(GameBoardViewModel::class)
     abstract fun bindGameBoardViewModel(gameBoardViewModel: GameBoardViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PreviousGamesViewModel::class)
+    abstract fun bindPreviousGamesViewModel(previousGamesViewModel: PreviousGamesViewModel): ViewModel
 }

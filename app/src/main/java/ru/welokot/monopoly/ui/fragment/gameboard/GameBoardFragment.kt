@@ -11,14 +11,12 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
-import ru.welokot.monopoly.db.entity.gameMove.TypeTransaction
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.models.TypeCapital
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import javax.inject.Inject
 
-class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnItemClickListener {
+class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnPlayerClickListener {
 
     companion object {
         private const val CODE_KEY = "GameBoardFragment"

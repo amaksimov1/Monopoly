@@ -12,6 +12,7 @@ import ru.welokot.monopoly.db.entity.gameMove.TypeTransaction
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.models.TypeCapital
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
@@ -30,8 +31,10 @@ class GameBoardViewModel
 
     var gameSessionLiveData: MutableLiveData<GameSessionEntity> = MutableLiveData()
 
-    fun setGameSession(gameSession: GameSessionEntity) {
-        this.gameSession = gameSession
+    fun setGameSession(gameSession: GameSessionEntity) = launch(Dispatchers.IO) {
+        this@GameBoardViewModel.gameSession = gameSession
+        this@GameBoardViewModel.gameSession.lastRun = Date().time
+        appDatabase.gameSessionDao().update(gameSession)
         gameSessionLiveData.postValue(gameSession)
     }
 

@@ -1,18 +1,14 @@
 package ru.welokot.monopoly.ui.dialog
 
 import android.os.Bundle
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.dialog_main.*
+import kotlinx.android.synthetic.main.main_dialog.*
 import ru.welokot.monopoly.R
-import ru.welokot.monopoly.models.TypeCapital
 import ru.welokot.monopoly.models.TypeCapitalSwitcher
 
 class MainDialog(
@@ -34,7 +30,7 @@ class MainDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_main, container, false)
+        return inflater.inflate(R.layout.main_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

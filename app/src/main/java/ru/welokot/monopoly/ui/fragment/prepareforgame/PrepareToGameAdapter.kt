@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item.view.*
+import kotlinx.android.synthetic.main.player_item.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
 
@@ -20,7 +20,7 @@ class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.player_item, parent, false)
         return Holder(view)
     }
 
@@ -28,9 +28,9 @@ class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<
 
     @SuppressLint("Recycle")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.tvName.text = playersList[position].name
-        holder.itemView.tvCapital.text = playersList[position].getFormattedCapital()
-        holder.itemView.ivImage.setImageDrawable(context.resources.obtainTypedArray(R.array.player_icon).getDrawable(playersList[position].icon))
+        holder.itemView.tv_name.text = playersList[position].name
+        holder.itemView.tv_capital.text = playersList[position].getFormattedCapital()
+        holder.itemView.iv_image.setImageDrawable(context.resources.obtainTypedArray(R.array.player_icon).getDrawable(playersList[position].icon))
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView)

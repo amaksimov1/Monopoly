@@ -48,7 +48,6 @@ class PrepareToGameViewModel @Inject constructor(
     fun addNewGameSession() = launch(Dispatchers.IO) {
         val newSession =
             GameSessionEntity(
-                lastRun = Date().time,
                 playersList = playersList.toList()
             )
 

@@ -2,7 +2,7 @@ package ru.welokot.monopoly.ui.fragment.prepareforgame
 
 import android.annotation.SuppressLint
 import android.content.Context
-import kotlinx.android.synthetic.main.dialog_main.*
+import kotlinx.android.synthetic.main.main_dialog.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.ui.dialog.MainDialog
