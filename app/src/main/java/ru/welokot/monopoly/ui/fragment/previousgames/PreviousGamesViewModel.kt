@@ -31,7 +31,7 @@ class PreviousGamesViewModel @Inject constructor(
     }
 
     fun loadPreviousGames() = launch (Dispatchers.IO) {
-        previousGamesList.addAll(appDatabase.gameSessionDao().getAll())
+        previousGamesList.addAll(appDatabase.gameSessionDao().getAll().reversed())
         previousGamesListLiveData.postValue(previousGamesList)
     }
 }

@@ -1,13 +1,15 @@
 package ru.welokot.monopoly.db.entity.gameMove
 
 import android.util.Log
+import ru.welokot.monopoly.models.TypeCapital
 import java.io.Serializable
 
 class GameMoveEntity (
     var id: Int = 0,
     val transferMoneyTo: MutableSet<Int> = mutableSetOf(),
     val transferMoneyFrom: MutableSet<Int> = mutableSetOf(),
-    val transferAmount: String = "0",
+    var transferAmount: String = "0",
+    var transferTypeCapital: TypeCapital = TypeCapital.K,
     val isThisCancellation: Boolean = false,
     val numberOfCanceledMove: Int = 0
 ) : Serializable {

@@ -39,6 +39,8 @@ class GameSessionEntity (
             it.transferMoneyFrom.forEach {id ->
                 takeAwayCapitalFromPlayerWithId(id, transactionAmount, typeCapital)
             }
+            it.transferAmount = transactionAmount
+            it.transferTypeCapital = typeCapital
             gameMovesList.add(it)
         }
 

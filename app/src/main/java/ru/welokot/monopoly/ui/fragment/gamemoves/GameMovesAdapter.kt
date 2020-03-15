@@ -16,10 +16,10 @@ class GameMovesAdapter(
     private val onGameMoveClickListener: OnGameMoveClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var gameMovesList = listOf<GameMoveEntity>()
+    private var gameMovesList = mutableListOf<GameMoveEntity>()
 
     fun setGameMoves(gameMoves: List<GameMoveEntity>) {
-        gameMovesList = gameMoves
+        gameMovesList.addAll(gameMoves.reversed())
         notifyDataSetChanged()
     }
 
