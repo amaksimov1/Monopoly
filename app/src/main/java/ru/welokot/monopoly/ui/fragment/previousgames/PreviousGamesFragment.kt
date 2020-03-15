@@ -3,21 +3,19 @@ package ru.welokot.monopoly.ui.fragment.previousgames
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.prepare_to_game_fragment.*
 import kotlinx.android.synthetic.main.previous_games_fragment.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.ui.Router
-import ru.welokot.monopoly.ui.fragment.prepareforgame.DeleteCallback
-import ru.welokot.monopoly.ui.fragment.prepareforgame.OnSwipedListener
+import ru.welokot.monopoly.ui.fragment.preparetogame.DeleteCallback
+import ru.welokot.monopoly.ui.fragment.preparetogame.OnSwipedListener
 import javax.inject.Inject
 
 class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGamesClickListener {
@@ -30,29 +28,40 @@ class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGame
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
+        viewModel = ViewModelProvider(this, providerFactory).get(PreviousGamesViewModel::class.java)
         super.onAttach(context)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initAdapters()
+        viewModel.loadPreviousGames()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this, providerFactory).get(PreviousGamesViewModel::class.java)
         return inflater.inflate(R.layout.previous_games_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(view)
-
-        initAdapters()
+        initToolbar(view)
+        initClicks(view)
         initRecyclerView(view)
         initObservers()
-
-        viewModel.loadPreviousGames()
     }
 
-    private fun setTitle(view: View) {
+    private fun initToolbar(view: View) {
         with(view) {
-            tvTitle.text = context.getString(R.string.previous_games)
+            tv_title.text = context.getString(R.string.previous_games)
+            ib_back.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initClicks(view: View) {
+        with(view) {
+            ib_back.setOnClickListener {
+                activity?.onBackPressed()
+            }
         }
     }
 
@@ -82,7 +91,11 @@ class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGame
         viewModel.deletePreviousGame(position)
     }
 
+    override fun canSwiped(position: Int): Int {
+        return ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    }
+
     override fun onPreviousGamesClick(gameSession: GameSessionEntity) {
-        Router.showGameBoardFragment(activity!!.supportFragmentManager, gameSession)
+        Router.showGameBoardFragment(activity?.supportFragmentManager, gameSession)
     }
 }

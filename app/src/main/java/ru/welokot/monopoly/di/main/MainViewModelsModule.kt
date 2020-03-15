@@ -7,7 +7,8 @@ import dagger.multibindings.IntoMap
 import ru.welokot.monopoly.di.ViewModelKey
 import ru.welokot.monopoly.ui.activity.MainActivityViewModel
 import ru.welokot.monopoly.ui.fragment.gameboard.GameBoardViewModel
-import ru.welokot.monopoly.ui.fragment.prepareforgame.PrepareToGameViewModel
+import ru.welokot.monopoly.ui.fragment.gamemoves.GameMovesViewModel
+import ru.welokot.monopoly.ui.fragment.preparetogame.PrepareToGameViewModel
 import ru.welokot.monopoly.ui.fragment.previousgames.PreviousGamesViewModel
 
 @Module
@@ -16,7 +17,7 @@ abstract class MainViewModelsModule {
     @Binds
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)
-    abstract fun bindmainActivityViewModel(mainActivityViewModel: MainActivityViewModel): ViewModel
+    abstract fun bindMainActivityViewModel(mainActivityViewModel: MainActivityViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -32,4 +33,9 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(PreviousGamesViewModel::class)
     abstract fun bindPreviousGamesViewModel(previousGamesViewModel: PreviousGamesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GameMovesViewModel::class)
+    abstract fun bindGameMovesViewModel(gameMovesViewModel: GameMovesViewModel): ViewModel
 }

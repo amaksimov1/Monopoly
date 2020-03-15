@@ -38,6 +38,8 @@ class GameBoardViewModel
         gameSessionLiveData.postValue(gameSession)
     }
 
+    fun getGameSession() = gameSession
+
     fun commitTransaction(transactionAmount: String, typeCapital: TypeCapital) = launch(Dispatchers.IO) {
         gameSession.applyCurrentGameMove(transactionAmount, typeCapital)
         appDatabase.gameSessionDao().update(gameSession)

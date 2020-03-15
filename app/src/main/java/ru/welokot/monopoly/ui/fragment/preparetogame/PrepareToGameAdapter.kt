@@ -1,10 +1,11 @@
-package ru.welokot.monopoly.ui.fragment.prepareforgame
+package ru.welokot.monopoly.ui.fragment.preparetogame
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.player_item.view.*
 import ru.welokot.monopoly.R
@@ -28,6 +29,10 @@ class PrepareToGameAdapter(private val context: Context) : RecyclerView.Adapter<
 
     @SuppressLint("Recycle")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (playersList[position].isBank) {
+            holder.itemView.iv_action.setImageDrawable(context.getDrawable(R.drawable.ic_adjust_24dp))
+            holder.itemView.iv_action.setColorFilter(ContextCompat.getColor(context, R.color.grey_500))
+        }
         holder.itemView.tv_name.text = playersList[position].name
         holder.itemView.tv_capital.text = playersList[position].getFormattedCapital()
         holder.itemView.iv_image.setImageDrawable(context.resources.obtainTypedArray(R.array.player_icon).getDrawable(playersList[position].icon))

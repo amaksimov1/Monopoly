@@ -1,5 +1,6 @@
 package ru.welokot.monopoly.ui.fragment.gameboard
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.models.TypeCapital
+import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import javax.inject.Inject
 
@@ -35,29 +38,47 @@ class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnPlayerClickLis
     private lateinit var viewModel: GameBoardViewModel
     private lateinit var adapter: GameBoardAdapter
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+        viewModel = ViewModelProvider(this, providerFactory).get(GameBoardViewModel::class.java)
+        viewModel.setGameSession(arguments!!.getSerializable(CODE_KEY) as GameSessionEntity)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this, providerFactory).get(GameBoardViewModel::class.java)
         return inflater.inflate(R.layout.game_board_fragment, container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initAdapters()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setGameSession(arguments!!.getSerializable(CODE_KEY) as GameSessionEntity)
-
-        setTitle(view)
+        initToolbar(view)
+        initClicks(view)
         initListeners()
-        initAdapters()
         initRecyclerView(view)
         initObservers()
     }
 
-    private fun setTitle(view: View) {
+    private fun initToolbar(view: View) {
         with(view) {
-            tvTitle.text = context.getString(R.string.transfer_money)
+            tv_title.text = context.getString(R.string.commit_transfer)
+            ib_back.visibility = View.GONE
+        }
+    }
+
+    private fun initClicks(view: View) {
+        with(view) {
+            btn_show_game_moves.setOnClickListener {
+                Router.showGameMovesFragment(activity?.supportFragmentManager, viewModel.getGameSession())
+            }
         }
     }
 

@@ -5,8 +5,10 @@
     <string name="capital">Капитал</string>
     <string name="add">Добавить</string>
     <string name="close">Закрыть</string>
-    <string name="commit_transfer">Совершить перевод</string>
+    <string name="commit_transfer">Совершение перевода</string>
     <string name="previous_games">Предыдущие игры</string>
     <string name="adding_players">Добавление игроков</string>
     <string name="transfer_money">Перевод денег</string>
+    <string name="back">Назад</string>
+    <string name="game_moves">Игровые ходы</string>
 </resources>

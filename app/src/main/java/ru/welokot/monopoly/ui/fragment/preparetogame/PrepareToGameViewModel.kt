@@ -1,17 +1,14 @@
-package ru.welokot.monopoly.ui.fragment.prepareforgame
+package ru.welokot.monopoly.ui.fragment.preparetogame
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.AppDatabase
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
-import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -41,8 +38,7 @@ class PrepareToGameViewModel @Inject constructor(
     }
 
     fun deletePlayer(position: Int){
-        if (position != 0) playersList.removeAt(position)
-        playersListLiveData.postValue(playersList)
+        playersList.removeAt(position)
     }
 
     fun addNewGameSession() = launch(Dispatchers.IO) {

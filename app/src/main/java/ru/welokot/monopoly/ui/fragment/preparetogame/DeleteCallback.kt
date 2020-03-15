@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.ui.fragment.prepareforgame
+package ru.welokot.monopoly.ui.fragment.preparetogame
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +18,17 @@ class DeleteCallback(private val onSwipedListener: OnSwipedListener) : ItemTouch
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         onSwipedListener.onSwiped(viewHolder.adapterPosition)
     }
+
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val swipeFlags = onSwipedListener.canSwiped(viewHolder.adapterPosition)
+        return makeMovementFlags(0, swipeFlags)
+    }
 }
 
 interface OnSwipedListener {
     fun onSwiped(position: Int)
+    fun canSwiped(position: Int): Int
 }

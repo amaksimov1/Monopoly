@@ -1,4 +1,4 @@
-package ru.welokot.monopoly.ui.fragment.prepareforgame
+package ru.welokot.monopoly.ui.fragment.preparetogame
 
 import android.annotation.SuppressLint
 import android.content.Context

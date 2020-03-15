@@ -1,9 +1,8 @@
-package ru.welokot.monopoly.ui.fragment.prepareforgame
+package ru.welokot.monopoly.ui.fragment.preparetogame
 
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -27,31 +26,33 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
     private lateinit var adapter: PrepareToGameAdapter
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+        viewModel = ViewModelProvider(this, providerFactory).get(PrepareToGameViewModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.addBank()
+        initAdapters()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this, providerFactory).get(PrepareToGameViewModel::class.java)
         return inflater.inflate(R.layout.prepare_to_game_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setTitle(view)
-
+        initToolbar(view)
         initClicks(view)
-        initAdapters()
         initRecyclerView(view)
         initObservers(view)
-
-        viewModel.addBank()
     }
 
-    private fun setTitle(view: View) {
+    private fun initToolbar(view: View) {
         with(view) {
-            tvTitle.text = context.getString(R.string.adding_players)
+            tv_title.text = context.getString(R.string.adding_players)
+            ib_back.visibility = View.GONE
         }
     }
 
@@ -62,7 +63,7 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
             }
 
             btn_load_previous_games.setOnClickListener {
-                Router.showPreviousGamesFragment(activity!!.supportFragmentManager)
+                Router.showPreviousGamesFragment(activity?.supportFragmentManager)
             }
 
             fab_add_player.setOnClickListener {
@@ -97,13 +98,18 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
             })
 
             viewModel.gameSessionLiveData.observe(viewLifecycleOwner, Observer {
-                Router.showGameBoardFragment(activity!!.supportFragmentManager, it)
+                Router.showGameBoardFragment(activity?.supportFragmentManager, it)
             })
         }
     }
 
     override fun onSwiped(position: Int) {
         viewModel.deletePlayer(position)
+        adapter.notifyItemRemoved(position)
+    }
+
+    override fun canSwiped(position: Int): Int {
+        return if (position == 0) 0 else (ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
     }
 
     override fun addPlayer(newPlayer: PlayerEntity) {

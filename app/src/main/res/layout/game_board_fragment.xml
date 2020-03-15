@@ -38,7 +38,7 @@
         app:layout_anchor="@id/bottom_app_bar" />
 
     <ImageButton
-        android:id="@+id/btn_show_previous_game_moves"
+        android:id="@+id/btn_show_game_moves"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
