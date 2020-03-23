@@ -43,7 +43,7 @@ class PreviousGamesAdapter(
 
     private fun getPlayersNames(position: Int): String {
         var playersNames = ""
-        previousGamesList[position].playersList.forEach {
+        previousGamesList[position].getPlayersList().forEach {
             if (!it.isBank) playersNames += "${it.name} "
         }
         return playersNames

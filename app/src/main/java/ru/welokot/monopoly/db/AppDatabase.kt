@@ -11,7 +11,7 @@ import ru.welokot.monopoly.db.entity.player.PlayerEntity
     entities = [
         GameSessionEntity::class
     ],
-    version = 2
+    version = 3
 )
 
 abstract class AppDatabase : RoomDatabase() {

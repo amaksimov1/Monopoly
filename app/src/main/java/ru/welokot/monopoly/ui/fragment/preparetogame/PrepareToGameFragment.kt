@@ -33,7 +33,7 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.addBank()
+        viewModel.init()
         initAdapters()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +59,7 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
     private fun initClicks(view: View) {
         with(view) {
             btn_start_game.setOnClickListener {
-                viewModel.addNewGameSession()
+                viewModel.saveNewGameSession()
             }
 
             btn_load_previous_games.setOnClickListener {

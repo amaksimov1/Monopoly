@@ -11,4 +11,6 @@
     <string name="transfer_money">Перевод денег</string>
     <string name="back">Назад</string>
     <string name="game_moves">Игровые ходы</string>
+    <string name="load">Загрузить</string>
+    <string name="moves">Ходы</string>
 </resources>

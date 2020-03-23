@@ -46,12 +46,13 @@
         app:layout_anchor="@+id/bottom_app_bar"
         app:layout_anchorGravity="start|center" />
 
-    <ImageButton
+    <Button
+        android:text="@string/load"
         android:id="@+id/btn_load_previous_games"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_save_24dp"
+        android:drawableEnd="@drawable/ic_file_download_24dp"
         app:layout_anchor="@+id/bottom_app_bar"
         app:layout_anchorGravity="end|center"
         android:contentDescription="@string/previous_games" />

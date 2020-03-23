@@ -20,35 +20,30 @@ class PrepareToGameViewModel @Inject constructor(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + job
 
-    private val playersList: MutableList<PlayerEntity> = mutableListOf()
-    private var playersId: Int = 1
+    private lateinit var gameSession: GameSessionEntity
+
 
     var playersListLiveData: MutableLiveData<MutableList<PlayerEntity>> = MutableLiveData()
     var gameSessionLiveData: MutableLiveData<GameSessionEntity> = MutableLiveData()
 
-    fun addBank() {
-        playersList.add(PlayerEntity(0, "Банк", 10000, 0, true))
-        playersListLiveData.postValue(playersList)
+    fun init() {
+        gameSession = GameSessionEntity()
+        gameSession.addBank()
+        playersListLiveData.postValue(gameSession.getPlayersList())
     }
 
     fun addPlayer(newPlayer: PlayerEntity) {
-        newPlayer.id = playersId++
-        playersList.add(newPlayer)
-        playersListLiveData.postValue(playersList)
+        gameSession.addPlayer(newPlayer)
+        playersListLiveData.postValue(gameSession.getPlayersList())
     }
 
     fun deletePlayer(position: Int){
-        playersList.removeAt(position)
+        gameSession.removePlayerByPosition(position)
     }
 
-    fun addNewGameSession() = launch(Dispatchers.IO) {
-        val newSession =
-            GameSessionEntity(
-                playersList = playersList.toList()
-            )
-
-        val gameSessionId = appDatabase.gameSessionDao().insert(newSession).toInt()
-        newSession.id = gameSessionId
-        gameSessionLiveData.postValue(newSession)
+    fun saveNewGameSession() = launch(Dispatchers.IO) {
+        val gameSessionId = appDatabase.gameSessionDao().insert(gameSession).toInt()
+        gameSession.id = gameSessionId
+        gameSessionLiveData.postValue(gameSession)
     }
 }

@@ -37,12 +37,13 @@
         android:src="@drawable/ic_attach_money"
         app:layout_anchor="@id/bottom_app_bar" />
 
-    <ImageButton
+    <Button
+        android:text="@string/moves"
         android:id="@+id/btn_show_game_moves"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_cancel_24dp"
+        android:drawableEnd="@drawable/ic_videogame_asset_24dp"
         app:layout_anchor="@+id/bottom_app_bar"
         app:layout_anchorGravity="end|center"
         android:contentDescription="@string/previous_games" />

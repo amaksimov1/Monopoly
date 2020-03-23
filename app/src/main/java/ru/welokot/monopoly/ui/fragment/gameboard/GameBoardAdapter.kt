@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.player_item.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.gameMove.TypeTransaction
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
+import ru.welokot.monopoly.db.entity.player.PlayerEntity
 
 class GameBoardAdapter(
     private val context: Context,
@@ -30,12 +31,12 @@ class GameBoardAdapter(
         return Holder(view)
     }
 
-    override fun getItemCount() = gameSession.playersList.size
+    override fun getItemCount() = gameSession.getPlayersList().size
 
     @SuppressLint("Recycle", "ResourceAsColor")
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        val player = gameSession.playersList[position]
+        val player = gameSession.getPlayerByPosition(position) ?: PlayerEntity()
         val currentGameMove = gameSession.getCurrentGameMove()
 
         when (currentGameMove.getTypeTransaction(player.id)) {
