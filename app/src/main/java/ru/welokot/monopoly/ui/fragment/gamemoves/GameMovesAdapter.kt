@@ -35,7 +35,7 @@ class GameMovesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         holder.itemView.tv_to_players.text = "${getPlayerNames(position, TypeTransaction.TO)}"
         holder.itemView.tv_transfer_amount.text = gameMovesList[position].getFormattedTransferAmount()
         holder.itemView.tv_cancel_info.text = if (gameMovesList[position].isCancellation) {
-            "Отмена хода ${gameMovesList[position].CanceledMoveId + 1}"
+            "Отмена хода\n${gameMovesList[position].CanceledMoveId + 1}"
         } else {
             ""
         }
