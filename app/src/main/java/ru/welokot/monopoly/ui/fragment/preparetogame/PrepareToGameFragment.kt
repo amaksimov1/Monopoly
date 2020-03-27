@@ -2,7 +2,9 @@ package ru.welokot.monopoly.ui.fragment.preparetogame
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,7 +19,8 @@ import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
 import javax.inject.Inject
 
-class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
+
+class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener, PlayerAdder {
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
@@ -53,6 +56,7 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
         with(view) {
             tv_title.text = context.getString(R.string.adding_players)
             ib_back.visibility = View.GONE
+            ib_undo.visibility = View.GONE
         }
     }
 
@@ -71,6 +75,11 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
                 val mainDialog = MainDialog(addingPlayer)
                 mainDialog.show(childFragmentManager, mainDialog.TAG)
             }
+
+            ib_undo.setOnClickListener {
+                viewModel.unarchivePlayer()
+                it.visibility = View.GONE
+            }
         }
     }
 
@@ -84,7 +93,7 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
             rv_players_list.adapter = this@PrepareToGameFragment.adapter
             rv_players_list.isNestedScrollingEnabled = false
 
-            val deleteCallback = DeleteCallback(this@PrepareToGameFragment)
+            val deleteCallback = DeleteCallback(this@PrepareToGameFragment, context!!)
             val helper = ItemTouchHelper(deleteCallback)
             helper.attachToRecyclerView(rv_players_list)
         }
@@ -104,8 +113,14 @@ class PrepareToGameFragment : DaggerFragment(), OnSwipedListener, PlayerAdder {
     }
 
     override fun onSwiped(position: Int) {
+        archiveSwipedPlayer(position)
         viewModel.deletePlayer(position)
         adapter.notifyItemRemoved(position)
+    }
+
+    private fun archiveSwipedPlayer(position: Int) {
+        viewModel.archivePlayer(position)
+        this.view?.ib_undo?.visibility = View.VISIBLE
     }
 
     override fun canSwiped(position: Int): Int {

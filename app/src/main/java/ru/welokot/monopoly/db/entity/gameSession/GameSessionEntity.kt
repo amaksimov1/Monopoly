@@ -73,7 +73,7 @@ class GameSessionEntity (
     fun getLastPlayerId() = lastPlayerId
 
     fun addBank() {
-        playersList.add(PlayerEntity(lastPlayerId, "Банк", 10000, 0, true))
+        playersList.add(PlayerEntity(lastPlayerId++, "Банк", 10000, 0, true))
     }
 
     fun addPlayer(playerEntity: PlayerEntity) {

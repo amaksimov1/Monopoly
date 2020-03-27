@@ -15,10 +15,9 @@ import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.fragment.preparetogame.DeleteCallback
-import ru.welokot.monopoly.ui.fragment.preparetogame.OnSwipedListener
 import javax.inject.Inject
 
-class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGamesClickListener {
+class PreviousGamesFragment : DaggerFragment(), DeleteCallback.OnSwipedListener, OnPreviousGamesClickListener {
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
@@ -54,6 +53,7 @@ class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGame
         with(view) {
             tv_title.text = context.getString(R.string.previous_games)
             ib_back.visibility = View.VISIBLE
+            ib_undo.visibility = View.GONE
         }
     }
 
@@ -61,6 +61,11 @@ class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGame
         with(view) {
             ib_back.setOnClickListener {
                 activity?.onBackPressed()
+            }
+
+            ib_undo.setOnClickListener {
+                viewModel.unarchivePreviousGame()
+                it.visibility = View.GONE
             }
         }
     }
@@ -75,7 +80,7 @@ class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGame
             rv_previous_games.adapter = this@PreviousGamesFragment.adapter
             rv_previous_games.isNestedScrollingEnabled = false
 
-            val deleteCallback = DeleteCallback(this@PreviousGamesFragment)
+            val deleteCallback = DeleteCallback(this@PreviousGamesFragment, context!!)
             val helper = ItemTouchHelper(deleteCallback)
             helper.attachToRecyclerView(rv_previous_games)
         }
@@ -88,7 +93,14 @@ class PreviousGamesFragment : DaggerFragment(), OnSwipedListener, OnPreviousGame
     }
 
     override fun onSwiped(position: Int) {
+        archiveSwipedPreviousGame(position)
         viewModel.deletePreviousGame(position)
+        adapter.notifyItemRemoved(position)
+    }
+
+    private fun archiveSwipedPreviousGame(position: Int) {
+        viewModel.archivePreviousGame(position)
+        this.view?.ib_undo?.visibility = View.VISIBLE
     }
 
     override fun canSwiped(position: Int): Int {

@@ -71,6 +71,7 @@ class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnPlayerClickLis
         with(view) {
             tv_title.text = context.getString(R.string.commit_transfer)
             ib_back.visibility = View.GONE
+            ib_undo.visibility = View.GONE
         }
     }
 

@@ -61,6 +61,7 @@ class GameMovesFragment : DaggerFragment(), OnGameMoveClickListener {
         with(view) {
             tv_title.text = context.getString(R.string.game_moves)
             ib_back.visibility = View.VISIBLE
+            ib_undo.visibility = View.GONE
         }
     }
 

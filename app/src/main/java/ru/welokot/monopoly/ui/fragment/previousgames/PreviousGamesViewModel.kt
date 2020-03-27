@@ -21,17 +21,30 @@ class PreviousGamesViewModel @Inject constructor(
         get() = Dispatchers.IO + job
 
     private var previousGamesList = mutableListOf<GameSessionEntity>()
-
     var previousGamesListLiveData: MutableLiveData<List<GameSessionEntity>> = MutableLiveData()
+
+    private var archivedGame: GameSessionEntity? = null
 
     fun deletePreviousGame(position: Int) = launch (Dispatchers.IO) {
         appDatabase.gameSessionDao().delete(previousGamesList[position])
         previousGamesList.removeAt(position)
-        previousGamesListLiveData.postValue(previousGamesList)
     }
 
     fun loadPreviousGames() = launch (Dispatchers.IO) {
         previousGamesList.addAll(appDatabase.gameSessionDao().getAll().reversed())
         previousGamesListLiveData.postValue(previousGamesList)
+    }
+
+    fun archivePreviousGame(position: Int) {
+        archivedGame = previousGamesList[position]
+    }
+
+    fun unarchivePreviousGame() = launch (Dispatchers.IO) {
+        archivedGame?.let {
+            appDatabase.gameSessionDao().insert(it)
+            previousGamesList.add(it)
+            previousGamesListLiveData.postValue(previousGamesList)
+        }
+        archivedGame = null
     }
 }

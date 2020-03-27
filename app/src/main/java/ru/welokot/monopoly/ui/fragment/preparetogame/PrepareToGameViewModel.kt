@@ -22,9 +22,10 @@ class PrepareToGameViewModel @Inject constructor(
 
     private lateinit var gameSession: GameSessionEntity
 
-
     var playersListLiveData: MutableLiveData<MutableList<PlayerEntity>> = MutableLiveData()
     var gameSessionLiveData: MutableLiveData<GameSessionEntity> = MutableLiveData()
+
+    private var archivedPlayer: PlayerEntity? = null
 
     fun init() {
         gameSession = GameSessionEntity()
@@ -35,6 +36,17 @@ class PrepareToGameViewModel @Inject constructor(
     fun addPlayer(newPlayer: PlayerEntity) {
         gameSession.addPlayer(newPlayer)
         playersListLiveData.postValue(gameSession.getPlayersList())
+    }
+
+    fun archivePlayer(position: Int) {
+        archivedPlayer = gameSession.getPlayerByPosition(position)
+    }
+
+    fun unarchivePlayer() {
+        archivedPlayer?.let {
+            addPlayer(it)
+        }
+        archivedPlayer = null
     }
 
     fun deletePlayer(position: Int){

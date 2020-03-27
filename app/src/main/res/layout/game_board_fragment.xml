@@ -37,15 +37,13 @@
         android:src="@drawable/ic_attach_money"
         app:layout_anchor="@id/bottom_app_bar" />
 
-    <Button
-        android:text="@string/moves"
+    <ImageButton
         android:id="@+id/btn_show_game_moves"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimary"
-        android:drawableEnd="@drawable/ic_videogame_asset_24dp"
+        android:src="@drawable/ic_videogame_asset_24dp"
         app:layout_anchor="@+id/bottom_app_bar"
-        app:layout_anchorGravity="end|center"
-        android:contentDescription="@string/previous_games" />
+        app:layout_anchorGravity="end|center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
