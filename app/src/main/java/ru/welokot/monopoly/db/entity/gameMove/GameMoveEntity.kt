@@ -10,8 +10,8 @@ class GameMoveEntity (
     val transferMoneyFrom: MutableSet<Int> = mutableSetOf(),
     var transferAmount: String = "0",
     var transferTypeCapital: TypeCapital = TypeCapital.K,
-    val isThisCancellation: Boolean = false,
-    val numberOfCanceledMove: Int = 0
+    var isCancellation: Boolean = false,
+    var CanceledMoveId: Int = 0
 ) : Serializable {
 
     fun addTransaction(id: Int, type: TypeTransaction) {
@@ -37,6 +37,10 @@ class GameMoveEntity (
             in transferMoneyFrom -> TypeTransaction.FROM
             else -> TypeTransaction.NOTHING
         }
+    }
+
+    fun getFormattedTransferAmount(): String {
+        return "↓ $transferAmount ${transferTypeCapital.name}"
     }
 }
 

@@ -10,53 +10,65 @@
     android:background="@color/colorOnPrimary">
 
     <TextView
-        android:id="@+id/tv_players_list2"
+        android:id="@+id/tv_to_players"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:ellipsize="end"
-        android:gravity="center|start"
+        android:gravity="center"
         android:maxLines="1"
-        android:text="К: Марина, Саша, Света, Даниил, Леша, Саша, Александр"
-        android:textColor="@color/grey_80"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Марина, Саша, Света, Даниил, Леша, Саша, Александр"
+        android:textColor="@color/green_900"
+        android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/iv_action"
         app:layout_constraintStart_toEndOf="@+id/tv_id"
-        app:layout_constraintTop_toBottomOf="@+id/tv_players_list" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_transfer_amount" />
 
     <TextView
         android:id="@+id/tv_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:ellipsize="end"
         android:maxLines="1"
         android:text="Ход: 15"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/grey_80"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_cancel_info"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/p123"
+        android:id="@+id/tv_cancel_info"
+        android:gravity="center"
+        android:maxLines="2"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:textColor="@color/grey_80"
+        android:textSize="10sp"
+        android:text="Отмена хода 14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_id"
+        app:layout_constraintStart_toStartOf="@+id/tv_id"
+        app:layout_constraintTop_toBottomOf="@+id/tv_id" />
+
+    <TextView
+        android:id="@+id/tv_from_players"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:ellipsize="end"
+        android:gravity="center"
         android:maxLines="1"
-        android:text="От: Марина, Саша, Света, Даниил, Леша, Саша, Александр"
+        android:text="Марина, Саша, Света, Даниил, Леша, Саша, Александр"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/grey_80"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_players_list"
+        android:textColor="@color/red_900"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_transfer_amount"
         app:layout_constraintEnd_toStartOf="@+id/iv_action"
-        app:layout_constraintStart_toEndOf="@+id/tv_id"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/tv_id" />
 
     <ImageView
         android:id="@+id/iv_action"
@@ -80,20 +92,20 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tv_players_list"
+        android:id="@+id/tv_transfer_amount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:ellipsize="end"
-        android:gravity="center|start"
+        android:gravity="center"
         android:maxLines="1"
-        android:text="К: Марина, Саша, Света, Даниил, Леша, Саша, Александр"
+        android:text="↓ 500 K"
         android:textColor="@color/grey_80"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_players_list2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/iv_action"
         app:layout_constraintStart_toEndOf="@+id/tv_id"
-        app:layout_constraintTop_toBottomOf="@+id/p123" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

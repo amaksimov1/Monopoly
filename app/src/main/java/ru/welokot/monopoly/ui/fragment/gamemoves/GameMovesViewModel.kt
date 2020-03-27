@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.welokot.monopoly.db.AppDatabase
-import ru.welokot.monopoly.db.entity.gameMove.GameMoveEntity
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -21,10 +20,28 @@ class GameMovesViewModel @Inject constructor(
         get() = Dispatchers.IO + job
 
     private var gameSession = GameSessionEntity()
-    var gameMovesListLiveData: MutableLiveData<List<GameMoveEntity>> = MutableLiveData()
+    var gameSessionLiveData: MutableLiveData<GameSessionEntity> = MutableLiveData()
 
-    fun setGameSession(gameSession: GameSessionEntity) {
-        this.gameSession = gameSession
-        gameMovesListLiveData.postValue(gameSession.gameMovesList)
+    fun setGameSession(_gameSession: GameSessionEntity) {
+        gameSession = _gameSession
+        gameSessionLiveData.postValue(gameSession)
+    }
+
+    fun getGameSession() = gameSession
+
+    fun cancelGameMove(position: Int) = launch(Dispatchers.IO) {
+        val cancellableGameMove = gameSession.getCurrentGameMove()
+        cancellableGameMove.apply {
+            isCancellation = true
+            CanceledMoveId = position
+            transferMoneyTo.addAll(gameSession.gameMovesList[position].transferMoneyFrom)
+            transferMoneyFrom.addAll(gameSession.gameMovesList[position].transferMoneyTo)
+        }
+        gameSession.applyCurrentGameMove(
+            gameSession.gameMovesList[position].transferAmount,
+            gameSession.gameMovesList[position].transferTypeCapital
+        )
+        appDatabase.gameSessionDao().update(gameSession)
+        gameSessionLiveData.postValue(gameSession)
     }
 }

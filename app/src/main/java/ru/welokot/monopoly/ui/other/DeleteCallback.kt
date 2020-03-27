@@ -1,11 +1,8 @@
-package ru.welokot.monopoly.ui.fragment.preparetogame
+package ru.welokot.monopoly.ui.other
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.welokot.monopoly.R

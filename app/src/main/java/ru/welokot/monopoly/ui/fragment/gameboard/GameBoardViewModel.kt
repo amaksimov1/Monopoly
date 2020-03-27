@@ -41,9 +41,16 @@ class GameBoardViewModel
     fun getGameSession() = gameSession
 
     fun commitTransaction(transactionAmount: String, typeCapital: TypeCapital) = launch(Dispatchers.IO) {
-        gameSession.applyCurrentGameMove(transactionAmount, typeCapital)
-        appDatabase.gameSessionDao().update(gameSession)
-        gameSessionLiveData.postValue(gameSession)
+        if (toAndFromIsNotEmpty()) {
+            gameSession.applyCurrentGameMove(transactionAmount, typeCapital)
+            appDatabase.gameSessionDao().update(gameSession)
+            gameSessionLiveData.postValue(gameSession)
+        }
+    }
+
+    private fun toAndFromIsNotEmpty(): Boolean {
+        return gameSession.getCurrentGameMove().transferMoneyTo.isNotEmpty() &&
+                gameSession.getCurrentGameMove().transferMoneyFrom.isNotEmpty()
     }
 
     fun changeTypeTransaction(gameSession: GameSessionEntity, playerId: Int) {

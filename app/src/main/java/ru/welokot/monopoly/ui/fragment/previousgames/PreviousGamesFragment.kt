@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.ui.Router
-import ru.welokot.monopoly.ui.fragment.preparetogame.DeleteCallback
+import ru.welokot.monopoly.ui.other.DeleteCallback
 import javax.inject.Inject
 
 class PreviousGamesFragment : DaggerFragment(), DeleteCallback.OnSwipedListener, OnPreviousGamesClickListener {
@@ -52,18 +52,18 @@ class PreviousGamesFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
     private fun initToolbar(view: View) {
         with(view) {
             tv_title.text = context.getString(R.string.previous_games)
-            ib_back.visibility = View.VISIBLE
-            ib_undo.visibility = View.GONE
+            ib_left.visibility = View.VISIBLE
+            ib_right.visibility = View.GONE
         }
     }
 
     private fun initClicks(view: View) {
         with(view) {
-            ib_back.setOnClickListener {
+            ib_left.setOnClickListener {
                 activity?.onBackPressed()
             }
 
-            ib_undo.setOnClickListener {
+            ib_right.setOnClickListener {
                 viewModel.unarchivePreviousGame()
                 it.visibility = View.GONE
             }
@@ -80,7 +80,10 @@ class PreviousGamesFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
             rv_previous_games.adapter = this@PreviousGamesFragment.adapter
             rv_previous_games.isNestedScrollingEnabled = false
 
-            val deleteCallback = DeleteCallback(this@PreviousGamesFragment, context!!)
+            val deleteCallback = DeleteCallback(
+                this@PreviousGamesFragment,
+                context!!
+            )
             val helper = ItemTouchHelper(deleteCallback)
             helper.attachToRecyclerView(rv_previous_games)
         }
@@ -100,7 +103,7 @@ class PreviousGamesFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
 
     private fun archiveSwipedPreviousGame(position: Int) {
         viewModel.archivePreviousGame(position)
-        this.view?.ib_undo?.visibility = View.VISIBLE
+        this.view?.ib_right?.visibility = View.VISIBLE
     }
 
     override fun canSwiped(position: Int): Int {

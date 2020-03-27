@@ -11,15 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.game_board_fragment.*
+import kotlinx.android.synthetic.main.game_board_fragment.view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.gameSession.GameSessionEntity
 import ru.welokot.monopoly.models.TypeCapital
 import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
+import ru.welokot.monopoly.ui.dialog.workers.CommitTransaction
+import ru.welokot.monopoly.ui.dialog.workers.TransactionCommiter
 import javax.inject.Inject
 
-class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnPlayerClickListener {
+class GameBoardFragment: DaggerFragment(),
+    TransactionCommiter, OnPlayerClickListener {
 
     companion object {
         private const val CODE_KEY = "GameBoardFragment"
@@ -70,14 +74,14 @@ class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnPlayerClickLis
     private fun initToolbar(view: View) {
         with(view) {
             tv_title.text = context.getString(R.string.commit_transfer)
-            ib_back.visibility = View.GONE
-            ib_undo.visibility = View.GONE
+            ib_left.visibility = View.GONE
+            ib_right.visibility = View.GONE
         }
     }
 
     private fun initClicks(view: View) {
         with(view) {
-            btn_show_game_moves.setOnClickListener {
+            this.btn_show_game_moves.setOnClickListener {
                 Router.showGameMovesFragment(activity?.supportFragmentManager, viewModel.getGameSession())
             }
         }
@@ -85,7 +89,8 @@ class GameBoardFragment: DaggerFragment(), TransactionCommiter, OnPlayerClickLis
 
     private fun initListeners() {
         fab_money_transfer.setOnClickListener {
-            val addingPlayer = CommitTransaction(this@GameBoardFragment)
+            val addingPlayer =
+                CommitTransaction(this@GameBoardFragment)
             val mainDialog = MainDialog(addingPlayer)
             mainDialog.show(childFragmentManager, mainDialog.TAG)
         }

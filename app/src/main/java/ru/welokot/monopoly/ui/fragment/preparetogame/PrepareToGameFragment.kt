@@ -17,10 +17,14 @@ import ru.welokot.monopoly.R
 import ru.welokot.monopoly.db.entity.player.PlayerEntity
 import ru.welokot.monopoly.ui.Router
 import ru.welokot.monopoly.ui.dialog.MainDialog
+import ru.welokot.monopoly.ui.dialog.workers.AddingPlayer
+import ru.welokot.monopoly.ui.other.DeleteCallback
+import ru.welokot.monopoly.ui.dialog.workers.PlayerAdder
 import javax.inject.Inject
 
 
-class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener, PlayerAdder {
+class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
+    PlayerAdder {
 
     @Inject
     lateinit var providerFactory: ViewModelProvider.Factory
@@ -55,8 +59,8 @@ class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
     private fun initToolbar(view: View) {
         with(view) {
             tv_title.text = context.getString(R.string.adding_players)
-            ib_back.visibility = View.GONE
-            ib_undo.visibility = View.GONE
+            ib_left.visibility = View.GONE
+            ib_right.visibility = View.GONE
         }
     }
 
@@ -71,12 +75,16 @@ class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
             }
 
             fab_add_player.setOnClickListener {
-                val addingPlayer = AddingPlayer(this@PrepareToGameFragment, context!!)
+                val addingPlayer =
+                    AddingPlayer(
+                        this@PrepareToGameFragment,
+                        context!!
+                    )
                 val mainDialog = MainDialog(addingPlayer)
                 mainDialog.show(childFragmentManager, mainDialog.TAG)
             }
 
-            ib_undo.setOnClickListener {
+            ib_right.setOnClickListener {
                 viewModel.unarchivePlayer()
                 it.visibility = View.GONE
             }
@@ -93,7 +101,10 @@ class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
             rv_players_list.adapter = this@PrepareToGameFragment.adapter
             rv_players_list.isNestedScrollingEnabled = false
 
-            val deleteCallback = DeleteCallback(this@PrepareToGameFragment, context!!)
+            val deleteCallback = DeleteCallback(
+                this@PrepareToGameFragment,
+                context!!
+            )
             val helper = ItemTouchHelper(deleteCallback)
             helper.attachToRecyclerView(rv_players_list)
         }
@@ -120,7 +131,7 @@ class PrepareToGameFragment : DaggerFragment(), DeleteCallback.OnSwipedListener,
 
     private fun archiveSwipedPlayer(position: Int) {
         viewModel.archivePlayer(position)
-        this.view?.ib_undo?.visibility = View.VISIBLE
+        this.view?.ib_right?.visibility = View.VISIBLE
     }
 
     override fun canSwiped(position: Int): Int {

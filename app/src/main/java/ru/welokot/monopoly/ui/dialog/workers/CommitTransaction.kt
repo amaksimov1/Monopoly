@@ -1,6 +1,5 @@
-package ru.welokot.monopoly.ui.fragment.gameboard
+package ru.welokot.monopoly.ui.dialog.workers
 
-import android.content.Context
 import android.view.View
 import kotlinx.android.synthetic.main.main_dialog.*
 import ru.welokot.monopoly.models.TypeCapital
